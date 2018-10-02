@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic.edit import CreateView, UpdateView
+from facturierApp.views import ClientListView
+
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$',ClientListView.as_view(), name="client_list"),
 ]
