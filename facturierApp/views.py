@@ -12,3 +12,18 @@ from datetime import datetime
 
 class ClientListView(ListView):
     model = Client
+
+
+class ClientCreateView(CreateView):
+    model = Client
+    fields = "__all__"
+
+
+class ClientDetailView(DetailView):
+    model = Client
+
+
+class ClientUpdate(UpdateView):
+    model = Client
+    fields = "__all__"
+    pass

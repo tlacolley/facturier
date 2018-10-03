@@ -17,11 +17,15 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.edit import CreateView, UpdateView
-from facturierApp.views import ClientListView
+from facturierApp.views import ClientListView, ClientCreateView, ClientDetailView, ClientUpdate
 
 
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls, name="admin"),
     url(r'^$',ClientListView.as_view(), name="client_list"),
+    url(r'^client/create/$',ClientCreateView.as_view(), name="client_create"),
+
+    url(r'^client/(?P<slug>[\w-]+/$)', ClientDetailView.as_view(), name="client_detail"),
+    url(r'^client/(?P<slug>[\w-]+/edit/$)', ClientUpdate.as_view(), name="client_update"),
 ]
