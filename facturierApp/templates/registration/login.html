@@ -1,0 +1,49 @@
+{% extends 'facturierApp/base.html'%}
+
+
+{% block content %}
+
+<ol class="breadcrumb">
+  {% if request.user.is_authenticated %}
+  <h3>Welcome back {{ request.user.username }}!</h3>
+  <a class="nav-link" href="/logout">Logout</a>
+  {% else %}
+  <h3>Welcome!</h3>
+  <a class="nav-link" href="/login">Login</a>
+  {% endif %}
+  <li class="breadcrumb-item">
+    <a href="/">Accueil</a>
+  </li>
+  <li class="breadcrumb-item active">Overview</li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'client_create' %}">Add Client</a>
+  </li>
+</ol>
+
+
+
+<form action="." method="post" class="login">
+  {% csrf_token %}
+  <input type="hidden" name="next" value="/">
+  {{ form.username.label }}
+  {{ form.username }}
+
+  {{ form.password.label }}
+  {{ form.password }}
+  <button type="submit">Login</button>
+</form>
+
+<!-- DataTables Example -->
+<div class="card mb-3">
+  <div class="card-header">
+    <i class="fas fa-table"></i>
+    Data Table Example</div>
+  <div class="card-body">
+    <div class="table-responsive">
+
+    </div>
+  </div>
+  <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+</div>
+
+{% endblock %}

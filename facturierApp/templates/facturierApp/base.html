@@ -1,24 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
 
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Facturier</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/style.css'%}" />
+</head>
 
-{% include 'facturierApp/header.html'%}
+<body>
+    {% include 'facturierApp/header.html'%}
+    <main>
+        {% block content %}
 
-<div class="container">
-    <div class="row">
+        {% endblock %}
+        <aside>
+            {% if request.user.is_authenticated %}
+            <h3>Welcome back {{ request.user.username }}!</h3>
+            <a class="nav-link" href="/logout">Logout</a>
+            <a class="nav-link" href="{% url 'client_create' %}">Add Client</a>
+            {% else %}
+            <h3>Welcome!</h3>
+            <a class="nav-link" href="/login">Login</a>
+            {% endif %}
+        </aside>
+    </main>
+    {% include 'facturierApp/footer.html'%}
+    <script src="{% static 'jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
+</body>
 
-        <div class="col-9 bg-primary">
-{% block content %}
-
-
-{% endblock %}
-
-
-    </div>
-    <div class="col-3 bg-secondary" >
-            <h3> Espace de log </h3>
-    </div>
-
-</div>
-
-</div>
-
-{% include 'facturierApp/footer.html'%}
+</html>

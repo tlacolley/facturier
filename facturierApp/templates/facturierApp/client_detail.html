@@ -20,7 +20,6 @@
     List Client</div>
   <div class="card-body">
 
-    {% for client in object_list %}
     <div class="card">
       <div class="card-body">
         <h3 class="card-title"><a href="{% url 'client_detail' client.slug %}"> {{ client.firstname }} {{ client.lastname }}</a></h3>
@@ -29,10 +28,18 @@
           <h4>Address: {{ client.address }}</h4>
           <h4>Telephone: {{ client.tel }}</h4>
         </div>
-        <a href="{% url 'client_detail' client.slug %}" class="btn btn-primary">Go ON {{ client.firstname }}</a>
+        <a href="{% url 'client_update' client.slug %}" class="btn btn-primary">Update {{ client.firstname }}</a>
+        
+        <form class="" action="{% url 'client_remove' client.slug %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="client_id" value="{{ client.id }}">
+          <button type="submit" name="removeClient">Remove</button>
+        </form>
+
+        <!-- <a href="" class="btn btn-primary">Remove {{ client.firstname }}</a> -->
+        
       </div>
     </div>
-    {% endfor %}
 
   </div>
   <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>

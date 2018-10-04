@@ -17,7 +17,10 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.edit import CreateView, UpdateView
-from facturierApp.views import ClientListView, ClientCreateView, ClientDetailView, ClientUpdate
+from facturierApp.views import ClientListView, ClientCreateView, ClientDetailView, ClientUpdate, ClientRemoveView
+from django.contrib.auth import views as auth_views
+from django.shortcuts import render, redirect
+
 
 
 
@@ -26,6 +29,11 @@ urlpatterns = [
     url(r'^$',ClientListView.as_view(), name="client_list"),
     url(r'^client/create/$',ClientCreateView.as_view(), name="client_create"),
 
-    url(r'^client/(?P<slug>[\w-]+/$)', ClientDetailView.as_view(), name="client_detail"),
-    url(r'^client/(?P<slug>[\w-]+/edit/$)', ClientUpdate.as_view(), name="client_update"),
+    url(r'^login/$', auth_views.LoginView.as_view()),
+    url(r'^logout/$', auth_views.LogoutView.as_view(next_page="/")),
+    
+    url(r'^client/(?P<slug>[\w-]+)/$', ClientDetailView.as_view(), name="client_detail"),
+    url(r'^client/(?P<slug>[\w-]+)/edit/$', ClientUpdate.as_view(), name="client_update"),
+    url(r'^client/(?P<slug>[\w-]+)/remove/$', ClientRemoveView.as_view(), name="client_remove"),
+    url(r'^client/create/$', ClientCreateView.as_view(), name="client_create"),
 ]
