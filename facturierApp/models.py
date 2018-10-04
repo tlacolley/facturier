@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.utils import timezone
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
 
 # Create your models here.
 
@@ -12,7 +13,7 @@ class Client(models.Model):
     slug = models.SlugField(max_length=100)
     email = models.EmailField()
     address = models.CharField(max_length=200)
-    tel = models.IntegerField()
+    tel = PhoneNumberField()
 
 
 class Produit(models.Model):

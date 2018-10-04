@@ -18,6 +18,8 @@ class ClientAdmin(admin.ModelAdmin):
 	prepopulated_fields = {'slug' : ('firstname', 'lastname')}
 
 	search_fields = ('firstname', 'lastname')
+	prepopulated_fields = {"slug": ('firstname', 'lastname')}
+
 
 
 class ProduitAdmin(admin.ModelAdmin):

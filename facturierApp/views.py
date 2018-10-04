@@ -8,11 +8,21 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse, reverse_lazy
 from datetime import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 
 # Create your views here.
 
 class ClientListView(ListView):
     model = Client
+
+    def get_queryset(self):
+        query = self.request.GET.get('q',None)
+        print query
+        if query != None:
+            return Client.objects.filter(Q(firstname__icontains=query) | Q(lastname__icontains=query))
+        else:
+            return Client.objects.all()
+
 
 
 class ClientCreateView(LoginRequiredMixin, CreateView):

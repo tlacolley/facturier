@@ -14,19 +14,19 @@
 <body>
     {% include 'facturierApp/header.html'%}
     <main>
-        {% block content %}
-
-        {% endblock %}
         <aside>
             {% if request.user.is_authenticated %}
             <h3>Welcome back {{ request.user.username }}!</h3>
-            <a class="nav-link" href="/logout">Logout</a>
-            <a class="nav-link" href="{% url 'client_create' %}">Add Client</a>
+            <h3><a class="nav-link" href="/logout">Logout</a></h3>
+            <h3><a class="nav-link" href="{% url 'client_create' %}">Add Client</a></h3>
             {% else %}
             <h3>Welcome!</h3>
-            <a class="nav-link" href="/login">Login</a>
+            <h3><a class="nav-link" href="/login">Login</a></h3>
             {% endif %}
         </aside>
+        {% block content %}
+
+        {% endblock %}
     </main>
     {% include 'facturierApp/footer.html'%}
     <script src="{% static 'jquery/dist/jquery.min.js' %}"></script>

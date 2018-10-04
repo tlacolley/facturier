@@ -1,93 +1,23 @@
 {% extends 'facturierApp/base.html'%}
 
-
 {% block content %}
 
-<!-- Breadcrumbs-->
-<ol class="breadcrumb">
-  <li class="breadcrumb-item">
-    <a href="/">Accueil</a>
-  </li>
-  <li class="breadcrumb-item active">Overview</li>
-</ol>
+<section>
+  <h2>List Client</h2>
+  <article>
+    <h3><a href="{% url 'client_detail' client.slug %}"> {{ client.firstname }} {{ client.lastname }}</a></h3>
+    <h4>Email: {{ client.email }}</h4>
+    <h4>Address: {{ client.address }}</h4>
+    <h4>Telephone: {{ client.tel }}</h4>
+    <h5><a href="{% url 'client_detail' client.slug %}">Go ON {{ client.firstname }}</a></h5>
+    <a href="{% url 'client_update' client.slug %}" class="btn btn-primary">Update {{ client.firstname }}</a>
 
-
-
-<!-- Area Chart Example-->
-<div class="card mb-3">
-  <div class="card-header">
-    <i class="fas fa-chart-area"></i>
-    List Client</div>
-  <div class="card-body">
-
-    <div class="card">
-      <div class="card-body">
-        <h3 class="card-title"><a href="{% url 'client_detail' client.slug %}"> {{ client.firstname }} {{ client.lastname }}</a></h3>
-        <div class="card-text">
-          <h4>Email: {{ client.email }}</h4>
-          <h4>Address: {{ client.address }}</h4>
-          <h4>Telephone: {{ client.tel }}</h4>
-        </div>
-        <a href="{% url 'client_update' client.slug %}" class="btn btn-primary">Update {{ client.firstname }}</a>
-        
-        <form class="" action="{% url 'client_remove' client.slug %}" method="post">
-          {% csrf_token %}
-          <input type="hidden" name="client_id" value="{{ client.id }}">
-          <button type="submit" name="removeClient">Remove</button>
-        </form>
-
-        <!-- <a href="" class="btn btn-primary">Remove {{ client.firstname }}</a> -->
-        
-      </div>
-    </div>
-
-  </div>
-  <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-</div>
-
-<!-- DataTables Example -->
-<div class="card mb-3">
-  <div class="card-header">
-    <i class="fas fa-table"></i>
-    Data Table Example</div>
-  <div class="card-body">
-    <div class="table-responsive">
-
-    </div>
-  </div>
-  <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-</div>
-
-
-<!-- /.container-fluid -->
-
-<!-- Sticky Footer -->
-
-
-<!-- /.content-wrapper -->
-
-
-<!-- /#wrapper -->
-
-
-
-<!-- Logout Modal-->
-<!-- <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
-          </div>
-        </div>
-      </div>
-    </div> -->
+    <form class="" action="{% url 'client_remove' client.slug %}" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="client_id" value="{{ client.id }}">
+      <button type="submit" name="removeClient">Remove</button>
+    </form>
+  </article>
+</section>
 
 {% endblock %}
