@@ -14,6 +14,7 @@
 <body>
     {% include 'facturierApp/header.html'%}
     <main>
+        {% block aside %}
         <aside>
             {% if request.user.is_authenticated %}
             <h3>Welcome back {{ request.user.username }}!</h3>
@@ -24,6 +25,7 @@
             <h3><a class="nav-link" href="/login">Login</a></h3>
             {% endif %}
         </aside>
+        {% endblock %}
         {% block content %}
 
         {% endblock %}

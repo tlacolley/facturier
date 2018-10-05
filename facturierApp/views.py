@@ -10,7 +10,6 @@ from datetime import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 
-# Create your views here.
 
 class ClientListView(ListView):
     model = Client
@@ -22,7 +21,6 @@ class ClientListView(ListView):
             return Client.objects.filter(Q(firstname__icontains=query) | Q(lastname__icontains=query))
         else:
             return Client.objects.all()
-
 
 
 class ClientCreateView(LoginRequiredMixin, CreateView):
@@ -43,6 +41,5 @@ class ClientUpdate(LoginRequiredMixin, UpdateView):
         return reverse('client_detail', args=[self.object.slug])
 
 class ClientRemoveView(DeleteView):
-
     model = Client
     success_url = reverse_lazy('client_list')
