@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.contrib import admin
-from .models import Client, Produit, LigneDevis, LigneFacture, Devis, Facture
+from .models import Customer, Product, LigneDevis, LigneBill, Devis, Bill
 
 
-# Clients et produits
 
-class ClientAdmin(admin.ModelAdmin):
+# Customer et products
+
+class CustomerAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'slug',
                     'email', 'address', 'phone')
+    readonly_fields = ('slug',)
     fieldsets = (
         ('General', {
             'fields': (('first_name', 'last_name', 'slug'),
@@ -17,15 +19,14 @@ class ClientAdmin(admin.ModelAdmin):
         }),
     )
 
-    prepopulated_fields = {'slug': ('first_name', 'last_name')}
     search_fields = ('first_name', 'last_name')
 
 
-class ProduitAdmin(admin.ModelAdmin):
+class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug', 'description', 'price', 'stock')
     fieldsets = (
         ('General', {
-            'fields': (('name', 'slug'),
+            'fields': (('name', ),
                        ('price', 'stock')
                        ),
         }),
@@ -35,7 +36,6 @@ class ProduitAdmin(admin.ModelAdmin):
         }),
     )
 
-    prepopulated_fields = {'slug': ('name',)}
     search_fields = ('name', 'price')
 
 # Lignes de commandes
@@ -44,45 +44,47 @@ class LigneDevisAdmin(admin.StackedInline):
     model = LigneDevis
 
 
-class LigneFactureAdmin(admin.StackedInline):
-    model = LigneFacture
+class LigneBillAdmin(admin.StackedInline):
+    model = LigneBill
 
 
-# Devis et facture
+# Devis et bill
 
 class DevisAdmin(admin.ModelAdmin):
     inlines = [
         LigneDevisAdmin,
     ]
-    list_display = ('client', 'dateCreation', 'dateValid')
+    list_display = ('customer', 'created_at', 'validated_at')
     fieldsets = (
         ('General', {
-            'fields': (('client',),
-                       ('dateCreation', 'dateValid')
+            'fields': (('customer',),
+                       ('created_at', 'validated_at')
                        ),
         }),
     )
 
-    search_fields = ('client', 'dateCreation', 'dateValid')
+    search_fields = ('customer', 'created_at', 'validated_at')
 
 
-class FactureAdmin(admin.ModelAdmin):
+
+
+class BillAdmin(admin.ModelAdmin):
     inlines = [
-        LigneFactureAdmin,
+        LigneBillAdmin,
     ]
-    list_display = ('client', 'dateCreation', 'dateValid', 'payment')
+    list_display = ('customer', 'created_at', 'validated_at', 'payment')
     fieldsets = (
         ('General', {
-            'fields': (('client',),
-                       ('dateCreation', 'dateValid', 'payment')
+            'fields': (('customer',),
+                       ('created_at', 'validated_at', 'payment')
                        ),
         }),
     )
 
-    search_fields = ('client', 'dateCreation', 'dateValid', 'payment')
+    search_fields = ('customer', 'created_at', 'validated_at', 'payment')
 
 
-admin.site.register(Client, ClientAdmin)
-admin.site.register(Produit, ProduitAdmin)
+admin.site.register(Customer, CustomerAdmin)
+admin.site.register(Product, ProductAdmin)
 admin.site.register(Devis, DevisAdmin)
-admin.site.register(Facture, FactureAdmin)
+admin.site.register(Bill, BillAdmin)

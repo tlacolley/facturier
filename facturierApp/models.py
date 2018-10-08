@@ -5,35 +5,42 @@ from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from autoslug import AutoSlugField
 
-# Clients et produits
+# Customer et products
 
-class Client(models.Model):
+class Customer(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    slug = AutoSlugField(populate_from=['first_name', 'last_name'])
+    slug = AutoSlugField(populate_from="full_name", unique=True, always_update=True)
+
+
     email = models.EmailField()
     address = models.CharField(max_length=200)
     phone = PhoneNumberField()
 
+    def full_name(self):
+        return "%s %s" % (self.first_name, self.last_name)
 
-class Produit(models.Model):
+
+class Product(models.Model):
     name = models.CharField(max_length=100)
     slug = AutoSlugField(populate_from='name')
     description = models.TextField(null=True, blank=True)
     price = models.FloatField()
     stock = models.IntegerField()
 
-# Devis et facture
+# Devis et bill
 
 class Devis(models.Model):
-    client = models.ForeignKey(Client, null=True, blank=True)
+    customer = models.ForeignKey(Customer, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True,
                                 verbose_name="Date de creation")
     validated_at = models.DateTimeField(auto_now=True,
                                 verbose_name="Date de validation")
 
+    class Meta:
+        verbose_name_plural = 'Devis'
 
-class Facture(models.Model):
+class Bill(models.Model):
     PAYMENT_CHOICES = (
         ('CASH', 'cash'),
         ('CARD', 'card'),
@@ -41,21 +48,23 @@ class Facture(models.Model):
         ('PAYPAL', 'paypal'),
         ('BITCOIN', 'bitcoin'),
     )
-    client = models.ForeignKey(Client, null=True, blank=True) 
+    customer = models.ForeignKey(Customer, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True,
                                 verbose_name="Date de creation")
     validated_at = models.DateTimeField(auto_now=True,
                                 verbose_name="Date de validation")
-    payment = models.CharField(choices=PAYMENT_CHOICES, default='CASH')
+    payment = models.CharField(max_length=10, choices=PAYMENT_CHOICES, default='CASH')
 
 # Lignes de commandes
 
 class LigneDevis(models.Model):
-    produit = models.ForeignKey(Produit, null=True, blank=True)
+    product = models.ForeignKey(Product, null=True, blank=True)
     quantity = models.IntegerField()
     devis = models.ForeignKey(Devis, null=True, blank=True)
 
-class LigneFacture(models.Model):
-    produit = models.ForeignKey(Produit, null=True, blank=True)
+
+
+class LigneBill(models.Model):
+    product = models.ForeignKey(Product, null=True, blank=True)
     quantity = models.IntegerField()
-    devis = models.ForeignKey(Facture, null=True, blank=True)
+    devis = models.ForeignKey(Bill, null=True, blank=True)

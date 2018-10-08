@@ -4,15 +4,15 @@
 
 {% block content %}
 
-<form class="formArticle" action="." method="post">{% csrf_token %}
-    <h4> Register your client</h4>
+<form class="formCustomer" action="." method="post">{% csrf_token %}
+    <h4> Register your customer</h4>
     <div class="d-block">
-        <label for="">Firstname</label>
-        {{ form.firstname }}
+        <label for="">First name</label>
+        {{ form.first_name }}
     </div>
     <div class="">
-        <label for="">Lastname</label>
-        {{ form.lastname }}
+        <label for="">Last name</label>
+        {{ form.last_name }}
         {{ form.slug}}
     </div>
     <div class=" content">
@@ -25,7 +25,7 @@
     </div>
      <div class="">
          <label for="">Number</label>
-         {{ form.tel }}
+         {{ form.phone }}
      </div>
      <input type="submit" name="submit" value="Save">
 

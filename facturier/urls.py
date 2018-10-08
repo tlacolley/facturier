@@ -19,17 +19,17 @@ from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth import views as auth_views
 from django.shortcuts import render, redirect
-from facturierApp.views import ClientListView, ClientCreateView, ClientDetailView, ClientUpdate, ClientRemoveView
+from facturierApp.views import CustomerListView, CustomerCreateView, CustomerDetailView, CustomerUpdate, CustomerRemoveView
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls, name="admin"),
     url(r'^login/$', auth_views.LoginView.as_view()),
     url(r'^logout/$', auth_views.LogoutView.as_view(next_page="/")),
-    
-    url(r'^$',ClientListView.as_view(), name="client_list"),
-    url(r'^client/create/$', ClientCreateView.as_view(), name="client_create"),
-    url(r'^client/(?P<slug>[\w-]+)/$', ClientDetailView.as_view(), name="client_detail"),
-    url(r'^client/(?P<slug>[\w-]+)/edit/$', ClientUpdate.as_view(), name="client_update"),
-    url(r'^client/(?P<slug>[\w-]+)/remove/$', ClientRemoveView.as_view(), name="client_remove"),
+
+    url(r'^$',CustomerListView.as_view(), name="customer_list"),
+    url(r'^customer/create/$', CustomerCreateView.as_view(), name="customer_create"),
+    url(r'^customer/(?P<slug>[\w-]+)/$', CustomerDetailView.as_view(), name="customer_detail"),
+    url(r'^customer/(?P<slug>[\w-]+)/edit/$', CustomerUpdate.as_view(), name="customer_update"),
+    url(r'^customer/(?P<slug>[\w-]+)/remove/$', CustomerRemoveView.as_view(), name="customer_remove"),
 ]

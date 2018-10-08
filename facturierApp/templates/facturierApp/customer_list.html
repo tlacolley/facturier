@@ -1,0 +1,50 @@
+{% extends 'facturierApp/base.html'%}
+
+{% block content %}
+
+<section>
+  <h2>List Customer</h2>
+  {% for customer in object_list %}
+  <!-- <article>
+
+    <div class="card-header" id="headingOne">
+    <h3 data-toggle="collapse" data-target="#collapse{{customer.id}}" aria-expanded="true" aria-controls="collapse{{customer.id}}"><a href="{% url 'customer_detail' customer.slug %}"> {{ customer.first_name }} {{ customer.last_name }}</a></h3>
+    <div id="collapse{{customer.id}}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+        <h4>Email: {{ customer.email }}</h4>
+        <h4>Address: {{ customer.address }}</h4>
+        <h4>Telephone: {{ customer.phone }}</h4>
+
+    </div>
+    <h5><a href="{% url 'customer_detail' customer.slug %}">Go ON {{ customer.first_name }}</a></h5>
+  </article> -->
+
+
+
+  <div id="accordion">
+  <div class="card">
+    <div class="card-header" id="heading{{customer.id}}">
+      <h3 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{customer.id}}" aria-expanded="false" aria-controls="collapse{{customer.id}}">
+          {{ customer.first_name }} {{ customer.last_name }}
+        </button>
+    </h3>
+    </div>
+
+    <div id="collapse{{customer.id}}" class="collapse hidden" aria-labelledby="heading{{customer.id}}" data-parent="#accordion">
+      <div class="card-body">
+          <h4>Email: {{ customer.email }}</h4>
+          <h4>Address: {{ customer.address }}</h4>
+          <h4>Telephone: {{ customer.phone }}</h4>
+
+      </div>
+      <h5><a href="{% url 'customer_detail' customer.slug %}">Go on {{ customer.first_name }}</a></h5>
+
+      </div>
+    </div>
+  </div>
+
+
+  {% endfor %}
+</section>
+
+{% endblock %}
