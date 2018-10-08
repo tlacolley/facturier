@@ -2,13 +2,15 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect
-from .models import Customer, Product, LineQuotation, LineBill, Quotation, Bill
+from django.urls import reverse, reverse_lazy
+from django.db.models import Q
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from django.views.generic.edit import CreateView, UpdateView, View
-from django.urls import reverse, reverse_lazy
-from datetime import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q
+from extra_views import CreateWithInlinesView, InlineFormSet
+from datetime import datetime
+from .models import Customer, Product, LineQuotation, LineBill, Quotation, Bill
+
 
 class IndexView(ListView):
     model = Customer
@@ -104,10 +106,25 @@ class ProductRemoveView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('product_list')
 
 
-class QuotationCreateView(CreateView):
-    model = Quotation
+class LineQuotationInline(InlineFormSet):
+    model = LineQuotation
     fields = "__all__"
+    # can_delete = True
+
+class QuotationCreateView(CreateWithInlinesView):
+    model = Quotation
+    inlines = [LineQuotationInline,]
+    fields = "__all__"
+    inlines_names = ['quotations',]
+
+    # inlines = [Customer, Product]
+
 
     def get_context_data(self, **kwargs):
         context = super(QuotationCreateView, self).get_context_data(**kwargs)
         context["customer"] = Customer.objects.all()
+        context['lineQuotation'] = LineQuotation.objects.all()
+        return context
+
+    def get_success_url(self):
+        return reverse('index')

@@ -21,6 +21,7 @@
             <h3><a class="nav-link" href="/logout">Logout</a></h3>
             <h3><a class="nav-link" href="{% url 'customer_create' %}">Add Customer</a></h3>
             <h3><a class="nav-link" href="{% url 'product_create' %}">Add Product</a></h3>
+            <h3><a href="{% url 'quotation_create' %}">Add Quotation</a></h3>
             {% else %}
             <h3>Welcome!</h3>
             <h3><a class="nav-link" href="/login">Login</a></h3>
@@ -34,6 +35,8 @@
     {% include 'facturierApp/footer.html'%}
     <script src="{% static 'jquery/dist/jquery.min.js' %}"></script>
     <script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.formset.js' %}"></script>
+
 </body>
 
 </html>
