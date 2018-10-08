@@ -8,10 +8,17 @@
     <h3><a href="{% url 'customer_detail' customer.slug %}"> {{ customer.first_name }} {{ customer.last_name }}</a></h3>
     <h4>Email: {{ customer.email }}</h4>
     <h4>Address: {{ customer.address }}</h4>
-    <h4>Telephone: {{ customer.tel }}</h4>
+    <h4>Telephone: {{ customer.phone }}</h4>
     <h5><a href="{% url 'customer_detail' customer.slug %}">Go ON {{ customer.first_name }}</a></h5>
     <a href="{% url 'customer_update' customer.slug %}" class="btn btn-primary">Update {{ customer.first_name }}</a>
+    <ul>
+        {% for quotation in quotations %}
+        {% if quotation.customer == customer%}
+        <li> {{quotation.customer.first_name}} </li>
 
+        {%endif %}
+        {%endfor%}
+    </ul>
     <form class="" action="{% url 'customer_remove' customer.slug %}" method="post">
       {% csrf_token %}
       <input type="hidden" name="customer_id" value="{{ customer.id }}">

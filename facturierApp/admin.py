@@ -22,6 +22,8 @@ class CustomerAdmin(admin.ModelAdmin):
     search_fields = ('first_name', 'last_name')
 
 
+
+
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug', 'description', 'price', 'stock')
     fieldsets = (
@@ -54,15 +56,17 @@ class QuotationAdmin(admin.ModelAdmin):
     inlines = [
         LineQuotationAdmin,
     ]
-    list_display = ('customer', 'created_at', 'validated_at')
+    list_display = ( 'created_at', 'validated_at')
+    list_filter = ( 'customer__last_name',)
+    readonly_fields = ('created_at','validated_at')
+
     fieldsets = (
         ('General', {
             'fields': (('customer',),
-                       ('created_at', 'validated_at')
+
                        ),
         }),
     )
-
     search_fields = ('customer', 'created_at', 'validated_at')
 
 
@@ -73,10 +77,11 @@ class BillAdmin(admin.ModelAdmin):
         LineBillAdmin,
     ]
     list_display = ('customer', 'created_at', 'validated_at', 'payment')
+    readonly_fields = ('created_at', 'validated_at')
     fieldsets = (
         ('General', {
             'fields': (('customer',),
-                       ('created_at', 'validated_at', 'payment')
+                       ( 'payment',)
                        ),
         }),
     )

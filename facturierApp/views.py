@@ -45,6 +45,12 @@ class CustomerCreateView(LoginRequiredMixin, CreateView):
 class CustomerDetailView(DetailView):
     model = Customer
 
+    def get_context_data(self, **kwargs):
+        context = super(CustomerDetailView,self).get_context_data(**kwargs)
+        context["quotations"] = Quotation.objects.all()
+        return context
+
+
 
 class CustomerUpdate(LoginRequiredMixin, UpdateView):
     model = Customer
@@ -101,3 +107,7 @@ class ProductRemoveView(LoginRequiredMixin, DeleteView):
 class QuotationCreateView(CreateView):
     model = Quotation
     fields = "__all__"
+
+    def get_context_data(self, **kwargs):
+        context = super(QuotationCreateView, self).get_context_data(**kwargs)
+        context["customer"] = Customer.objects.all()
