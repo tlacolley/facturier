@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'facturier.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis', # mettre ENGINE de postgres
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # mettre ENGINE de postgres
         'NAME': 'facturier',
         'USER': 'facturier',
         'PASSWORD': 'plop48000',

@@ -66,4 +66,4 @@ class LineQuotation(models.Model):
 class LineBill(models.Model):
     product = models.ForeignKey(Product, null=True, blank=True)
     quantity = models.IntegerField()
-    quotation = models.ForeignKey(Bill, null=True, blank=True)
+    bill = models.ForeignKey(Bill, null=True, blank=True)
