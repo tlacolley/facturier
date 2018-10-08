@@ -19,7 +19,9 @@ class Customer(models.Model):
 
     def full_name(self):
         return "%s %s" % (self.first_name, self.last_name)
-
+# permet d afficher le nom des customer dans un form/dropdown
+    def __unicode__(self):
+        return "%s %s" % (self.first_name, self.last_name)
 
 class Product(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -28,6 +30,9 @@ class Product(models.Model):
     price = models.FloatField()
     stock = models.IntegerField()
 
+# permet d afficher le nom des product dans un form/dropdown
+    def __unicode__(self):
+        return self.name
 # Quotationet bill
 
 class Quotation(models.Model):

@@ -6,7 +6,8 @@
 
 
 
-<form method="post" action="">
+<form class="QuotationCreateForm" method="post" action="">
+    <h2>Choise your client</h2>
     {% csrf_token %}
     {{ form.as_p }}
     <h2>Order details</h2>
@@ -20,20 +21,24 @@
         <tbody>
             {% for formset in inlines %}
             {% for form in formset %}
+
             <tr id="{{ form.prefix }}-row">
                 <td>
                     {% for fld in form.hidden_fields %}{{ fld }}{% endfor %}
-                    {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
                     {{ form.product }}
+
                 </td>
-                <td>{{ form.quantity }}</td>
+                <td class="quant">{{ form.quantity }}</td>
             </tr>
             {% endfor %}
             {% endfor %}
         </tbody>
     </table>
     <p>
+
+
         {{ formset.management_form }}
+        {{ form.management_form }}
         <input type="submit" value="Submit" />
     </p>
 </form>
