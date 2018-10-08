@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect
-from .models import Customer, Product, LigneDevis, LigneBill, Devis, Bill
+from .models import Customer, Product, LineQuotation, LineBill, Quotation, Bill
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from django.views.generic.edit import CreateView, UpdateView, View
 from django.urls import reverse, reverse_lazy
@@ -54,7 +54,7 @@ class CustomerUpdate(LoginRequiredMixin, UpdateView):
         return reverse('customer_detail', args=[self.object.slug])
 
 
-class CustomerRemoveView(DeleteView):
+class CustomerRemoveView(LoginRequiredMixin, DeleteView):
     model = Customer
     success_url = reverse_lazy('customer_list')
 
@@ -75,3 +75,29 @@ class ProductListView(ListView):
 
 class ProductDetailView(DetailView):
     model = Product
+
+
+class ProductCreateView(LoginRequiredMixin, CreateView):
+    model = Product
+    fields = "__all__"
+
+    def get_success_url(self):
+        return reverse('product_detail', args=[self.object.slug])
+
+
+class ProductUpdate(LoginRequiredMixin, UpdateView):
+    model = Product
+    fields = "__all__"
+
+    def get_success_url(self):
+        return reverse('product_detail', args=[self.object.slug])
+
+
+class ProductRemoveView(LoginRequiredMixin, DeleteView):
+    model = Product
+    success_url = reverse_lazy('product_list')
+
+
+class QuotationCreateView(CreateView):
+    model = Quotation
+    fields = "__all__"

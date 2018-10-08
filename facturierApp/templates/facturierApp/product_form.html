@@ -1,0 +1,32 @@
+
+{% extends 'facturierApp/base.html'%}
+
+
+{% block content %}
+
+<form class="formProduct" action="." method="post">{% csrf_token %}
+    <h4> Update your Product</h4>
+    <div class="d-block">
+        <label for="">Name</label>
+        {{ form.name }}
+        {{ form.slug}}
+    </div>
+    <div class="">
+        <label for="">Price</label>
+        {{ form.price }}
+    </div>
+    <div class=" content">
+        <label for="">Stock</label>
+        {{ form.stock }}
+    </div>
+    <div class="">
+        <label for="">Description</label>
+        {{ form.description }}
+    </div>
+     <input type="submit" name="submit" value="Save">
+
+</form>
+
+
+
+{% endblock %}

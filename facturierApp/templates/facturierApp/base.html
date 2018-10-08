@@ -20,6 +20,7 @@
             <h3>Welcome back {{ request.user.username }}!</h3>
             <h3><a class="nav-link" href="/logout">Logout</a></h3>
             <h3><a class="nav-link" href="{% url 'customer_create' %}">Add Customer</a></h3>
+            <h3><a class="nav-link" href="{% url 'product_create' %}">Add Product</a></h3>
             {% else %}
             <h3>Welcome!</h3>
             <h3><a class="nav-link" href="/login">Login</a></h3>

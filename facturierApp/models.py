@@ -22,23 +22,22 @@ class Customer(models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     slug = AutoSlugField(populate_from='name')
     description = models.TextField(null=True, blank=True)
     price = models.FloatField()
     stock = models.IntegerField()
 
-# Devis et bill
+# Quotationet bill
 
-class Devis(models.Model):
+class Quotation(models.Model):
     customer = models.ForeignKey(Customer, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True,
                                 verbose_name="Date de creation")
     validated_at = models.DateTimeField(auto_now=True,
                                 verbose_name="Date de validation")
 
-    class Meta:
-        verbose_name_plural = 'Devis'
+
 
 class Bill(models.Model):
     PAYMENT_CHOICES = (
@@ -55,16 +54,16 @@ class Bill(models.Model):
                                 verbose_name="Date de validation")
     payment = models.CharField(max_length=10, choices=PAYMENT_CHOICES, default='CASH')
 
-# Lignes de commandes
+# Lines de commandes
 
-class LigneDevis(models.Model):
+class LineQuotation(models.Model):
     product = models.ForeignKey(Product, null=True, blank=True)
     quantity = models.IntegerField()
-    devis = models.ForeignKey(Devis, null=True, blank=True)
+    quotation = models.ForeignKey(Quotation, null=True, blank=True)
 
 
 
-class LigneBill(models.Model):
+class LineBill(models.Model):
     product = models.ForeignKey(Product, null=True, blank=True)
     quantity = models.IntegerField()
-    devis = models.ForeignKey(Bill, null=True, blank=True)
+    quotation = models.ForeignKey(Bill, null=True, blank=True)

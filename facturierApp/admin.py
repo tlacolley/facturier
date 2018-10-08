@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.contrib import admin
-from .models import Customer, Product, LigneDevis, LigneBill, Devis, Bill
+from .models import Customer, Product, LineQuotation, LineBill, Quotation, Bill
 
 
 
@@ -38,21 +38,21 @@ class ProductAdmin(admin.ModelAdmin):
 
     search_fields = ('name', 'price')
 
-# Lignes de commandes
+# Lines de commandes
 
-class LigneDevisAdmin(admin.StackedInline):
-    model = LigneDevis
-
-
-class LigneBillAdmin(admin.StackedInline):
-    model = LigneBill
+class LineQuotationAdmin(admin.StackedInline):
+    model = LineQuotation
 
 
-# Devis et bill
+class LineBillAdmin(admin.StackedInline):
+    model = LineBill
 
-class DevisAdmin(admin.ModelAdmin):
+
+# Quotation et bill
+
+class QuotationAdmin(admin.ModelAdmin):
     inlines = [
-        LigneDevisAdmin,
+        LineQuotationAdmin,
     ]
     list_display = ('customer', 'created_at', 'validated_at')
     fieldsets = (
@@ -70,7 +70,7 @@ class DevisAdmin(admin.ModelAdmin):
 
 class BillAdmin(admin.ModelAdmin):
     inlines = [
-        LigneBillAdmin,
+        LineBillAdmin,
     ]
     list_display = ('customer', 'created_at', 'validated_at', 'payment')
     fieldsets = (
@@ -86,5 +86,5 @@ class BillAdmin(admin.ModelAdmin):
 
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Product, ProductAdmin)
-admin.site.register(Devis, DevisAdmin)
+admin.site.register(Quotation, QuotationAdmin)
 admin.site.register(Bill, BillAdmin)
