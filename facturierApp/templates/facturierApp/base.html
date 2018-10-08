@@ -36,7 +36,17 @@
     <script src="{% static 'jquery/dist/jquery.min.js' %}"></script>
     <script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/jquery.formset.js' %}"></script>
-
+    <script type="text/javascript">
+        $(function () {
+            $('#id_orders_table tbody tr').formset({
+                // For inline formsets, be sure to set the prefix, as the default prefix
+                // ('form') isn't correct.
+                // Django appears to generate the prefix from the lowercase plural
+                // name of the related model, with camel-case converted to underscores.
+                prefix: 'ordered_items'
+            })
+        })
+    </script>
 </body>
 
 </html>
