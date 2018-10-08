@@ -1,0 +1,36 @@
+{% extends 'facturierApp/base.html'%}
+
+{% block content %}
+
+<section>
+  <h2>List product</h2>
+  {% for product in object_list %}
+
+  <div id="accordion">
+    <div class="card">
+      <div class="card-header" id="heading{{product.id}}">
+        <h3 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{product.id}}" aria-expanded="false"
+            aria-controls="collapse{{product.id}}">
+            {{ product.name }}
+          </button>
+        </h3>
+      </div>
+
+      <div id="collapse{{product.id}}" class="collapse hidden" aria-labelledby="heading{{product.id}}" data-parent="#accordion">
+        <div class="card-body">
+          <h4>Price: {{ product.price }} $</h4>
+          <h4>Stock: {{ product.stock }}</h4>
+          <h4>Description: {{ product.description }}</h4>
+        </div>
+        <h5><a href="{% url 'product_detail' product.slug %}">Go on {{ product.name }}</a></h5>
+
+      </div>
+    </div>
+  </div>
+
+
+  {% endfor %}
+</section>
+
+{% endblock %}

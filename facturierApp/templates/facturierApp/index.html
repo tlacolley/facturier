@@ -1,0 +1,10 @@
+{% extends 'facturierApp/base.html'%}
+
+{% block content %}
+
+<ul>
+<li><a href="{% url 'customer_list' %}">Go to customers</a></li>
+<li><a href="{% url 'product_list' %}">Go to products</a></li>
+</ul>
+
+{% endblock %}

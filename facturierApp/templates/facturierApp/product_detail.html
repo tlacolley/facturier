@@ -1,0 +1,23 @@
+{% extends 'facturierApp/base.html'%}
+
+{% block content %}
+
+<section>
+  <h2> Product Detail</h2>
+  <article>
+    <h3><a href="{% url 'product_detail' product.slug %}"> {{ product.name }}</a></h3>
+    <h4>Price: {{ product.price }}</h4>
+    <h4>Stock: {{ product.stock }}</h4>
+    <h4>Description: {{ product.description }}</h4>
+    <h5><a href="{% url 'product_detail' product.slug %}">Go ON {{ product.name }}</a></h5>
+    <!-- <a href="{% url 'product_update' product.slug %}" class="btn btn-primary">Update {{ product.first_name }}</a> -->
+
+    <!-- <form class="" action="{% url 'product_remove' product.slug %}" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="product_id" value="{{ product.id }}">
+      <button type="submit" name="removeproduct">Remove</button>
+    </form> -->
+  </article>
+</section>
+
+{% endblock %}

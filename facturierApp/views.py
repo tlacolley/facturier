@@ -4,12 +4,23 @@ from __future__ import unicode_literals
 from django.shortcuts import render, redirect
 from .models import Customer, Product, LigneDevis, LigneBill, Devis, Bill
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, View
 from django.urls import reverse, reverse_lazy
 from datetime import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 
+class IndexView(ListView):
+    model = Customer
+
+    template_name = 'facturierApp/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = ListView.get_context_data(self, **kwargs)
+        context['all_products'] = Product.objects.all()
+        return context
+
+# Customers views
 
 class CustomerListView(ListView):
     model = Customer
@@ -30,8 +41,10 @@ class CustomerCreateView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse('customer_detail', args=[self.object.slug])
 
+
 class CustomerDetailView(DetailView):
     model = Customer
+
 
 class CustomerUpdate(LoginRequiredMixin, UpdateView):
     model = Customer
@@ -40,6 +53,25 @@ class CustomerUpdate(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse('customer_detail', args=[self.object.slug])
 
+
 class CustomerRemoveView(DeleteView):
     model = Customer
     success_url = reverse_lazy('customer_list')
+
+
+# Products views
+
+class ProductListView(ListView):
+    model = Product
+
+    def get_queryset(self):
+        query = self.request.GET.get('q', None)
+        print query
+        if query != None:
+            return Product.objects.filter(name__icontains=query)
+        else:
+            return Product.objects.all()
+
+
+class ProductDetailView(DetailView):
+    model = Product

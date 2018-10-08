@@ -19,17 +19,25 @@ from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth import views as auth_views
 from django.shortcuts import render, redirect
-from facturierApp.views import CustomerListView, CustomerCreateView, CustomerDetailView, CustomerUpdate, CustomerRemoveView
+from facturierApp.views import CustomerListView, CustomerCreateView, CustomerDetailView, CustomerUpdate, CustomerRemoveView, IndexView, ProductListView, ProductDetailView
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls, name="admin"),
     url(r'^login/$', auth_views.LoginView.as_view()),
     url(r'^logout/$', auth_views.LogoutView.as_view(next_page="/")),
+    url(r'^$', IndexView.as_view(), name="index"),
 
-    url(r'^$',CustomerListView.as_view(), name="customer_list"),
+
+    url(r'^customer/$', CustomerListView.as_view(), name="customer_list"),
     url(r'^customer/create/$', CustomerCreateView.as_view(), name="customer_create"),
     url(r'^customer/(?P<slug>[\w-]+)/$', CustomerDetailView.as_view(), name="customer_detail"),
     url(r'^customer/(?P<slug>[\w-]+)/edit/$', CustomerUpdate.as_view(), name="customer_update"),
     url(r'^customer/(?P<slug>[\w-]+)/remove/$', CustomerRemoveView.as_view(), name="customer_remove"),
+
+    url(r'^product/$', ProductListView.as_view(), name="product_list"),
+    # url(r'^product/create/$', ProductCreateView.as_view(), name="product_create"),
+    url(r'^product/(?P<slug>[\w-]+)/$', ProductDetailView.as_view(), name="product_detail"),
+    # url(r'^product/(?P<slug>[\w-]+)/edit/$', ProductUpdate.as_view(), name="product_update"),
+    # url(r'^product/(?P<slug>[\w-]+)/remove/$', ProductRemoveView.as_view(), name="product_remove"),
 ]
