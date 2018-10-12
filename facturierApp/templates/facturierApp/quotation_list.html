@@ -2,9 +2,40 @@
 
 {% block content %}
 
-<section>
-  <h2>List Quotation</h2>
+<section class="listQuotation">
 
+
+  <h2>List Quotation</h2>
+  <div class="filterBox">
+
+      <form class="formQuotation formDate" action="." method="get">
+
+            <label for="datePickerInput">Pick a date</label>
+            <input  type="text" id="datePickerInput" name="datePickerInput">
+            <input type="hidden" name="dateInputHide" value="">
+        </form>
+
+        <form class="formQuotation formStatus" action="." method="get">
+        <label for="selectStatus"> Select Status devis</label>
+        <select name="selectStatus" id="selectStatus">
+            <option value="Progress"> ----- </option>
+            <option value="Progress"> In Progress</option>
+            <option value="Relance"> Relance</option>
+            <option value="Valid">Valid</option>
+        </select>
+    </form>
+
+    <form class="formQuotation formOrder" action="." method="get">
+        <fieldset>
+            <legend>Select an Order</legend>
+            <input type="radio" name="orderByFilter"  value="customer"  />
+            <label for="name">Name</label>
+            <input type="radio" name="orderByFilter"  value="created_at"  />
+            <label for="date">Date</label>
+         </fieldset>
+     </form>
+
+</div>
 
   <div class="accordion" id="accordionQuotation">
     <div class="card">

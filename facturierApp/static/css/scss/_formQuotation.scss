@@ -41,3 +41,14 @@
         }
     }
 }
+
+.listQuotation{
+    h2{
+        display: inline;
+    }
+    .formQuotation{
+        align-items: end;
+        display: flex;
+        flex-direction: column;
+    }
+}

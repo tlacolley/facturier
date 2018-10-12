@@ -89,9 +89,22 @@ class QuotationListView(ListView):
 
     def get_queryset(self):
         query = self.request.GET.get('q', None)
-        print query
+        # date = self.request.GET.get('datePickerInput',None)
+        order = self.request.GET.get('orderByFilter', None)
+        status = self.request.GET.get('selectStatus', None)
+
         if query != None:
             return Quotation.objects.filter(Q(customer__first_name__icontains=query) | Q(customer__last_name__icontains=query))
+
+        elif order != None:
+            if order == 'customer':
+                return Quotation.objects.order_by("-"+order)
+            else:
+                return Quotation.objects.order_by(order)
+
+        elif status != None:
+            return Quotation.objects.filter(status=status)
+
         else:
             return Quotation.objects.all()
 

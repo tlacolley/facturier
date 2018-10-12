@@ -57,12 +57,12 @@ class QuotationAdmin(admin.ModelAdmin):
         LineQuotationAdmin,
     ]
     list_display = ( 'created_at', 'validated_at')
-    list_filter = ( 'customer__last_name',)
+    list_filter = ( 'customer__last_name','status')
     readonly_fields = ('created_at','validated_at')
 
     fieldsets = (
         ('General', {
-            'fields': (('customer',),
+            'fields': (('customer','status'),
 
                        ),
         }),

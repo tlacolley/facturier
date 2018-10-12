@@ -38,17 +38,24 @@ class Product(models.Model):
 # Quotationet bill
 
 class Quotation(models.Model):
+    STATUS_CHOICES = (
+        ('Progress', 'In Progress'),
+        ('Relance', 'A Relancer'),
+        ('Valid', 'Valid'),
+    )
     customer = models.ForeignKey(Customer, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True,
                                 verbose_name="Date de creation")
     validated_at = models.DateTimeField(auto_now=True,
                                 verbose_name="Date de validation")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='All')
 
     def total(self):
         res = 0
         for line in self.linequotation_set.all():
             res += line.total_line()
         return res
+
 
 class Bill(models.Model):
     PAYMENT_CHOICES = (
