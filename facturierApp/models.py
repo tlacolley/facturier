@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.utils import timezone
+from django.urls import reverse
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
+from django.core.validators import MinValueValidator
 from autoslug import AutoSlugField
 
 # Customer et products
@@ -42,7 +44,11 @@ class Quotation(models.Model):
     validated_at = models.DateTimeField(auto_now=True,
                                 verbose_name="Date de validation")
 
-
+    def total(self):
+        res = 0
+        for line in self.linequotation_set.all():
+            res += line.total_line()
+        return res
 
 class Bill(models.Model):
     PAYMENT_CHOICES = (
@@ -63,10 +69,11 @@ class Bill(models.Model):
 
 class LineQuotation(models.Model):
     product = models.ForeignKey(Product, null=True, blank=True)
-    quantity = models.IntegerField()
+    quantity = models.IntegerField(validators=[MinValueValidator(0)])
     quotation = models.ForeignKey(Quotation, null=True, blank=True)
 
-
+    def total_line(self):
+        return self.quantity * self.product.price
 
 class LineBill(models.Model):
     product = models.ForeignKey(Product, null=True, blank=True)

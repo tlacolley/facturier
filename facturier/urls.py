@@ -19,7 +19,7 @@ from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth import views as auth_views
 from django.shortcuts import render, redirect
-from facturierApp.views import CustomerListView, CustomerCreateView, CustomerDetailView, CustomerUpdate, CustomerRemoveView, IndexView, ProductListView, ProductDetailView, ProductCreateView, ProductUpdate, ProductRemoveView, QuotationCreateView
+from facturierApp.views import CustomerListView, CustomerCreateView, CustomerDetailView, CustomerUpdate, CustomerRemoveView, IndexView, ProductListView, ProductDetailView, ProductCreateView, ProductUpdate, ProductRemoveView, QuotationListView, QuotationCreateView, QuotationDetailView
 
 
 urlpatterns = [
@@ -41,5 +41,7 @@ urlpatterns = [
     url(r'^product/(?P<slug>[\w-]+)/edit/$', ProductUpdate.as_view(), name="product_update"),
     url(r'^product/(?P<slug>[\w-]+)/remove/$', ProductRemoveView.as_view(), name="product_remove"),
 
+    url(r'^quotation/$', QuotationListView.as_view(), name="quotation_list"),
+    url(r'^quotation/(?P<pk>\d+)/$', QuotationDetailView.as_view(), name="quotation_detail"),
     url(r'^quotation/create/$', QuotationCreateView.as_view(), name="quotation_create"),
 ]

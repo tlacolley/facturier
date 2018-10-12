@@ -1,0 +1,35 @@
+{% extends 'facturierApp/base.html'%}
+
+{% block content %}
+
+<section>
+  <h2>List Quotation</h2>
+
+
+  <div class="accordion" id="accordionQuotation">
+    <div class="card">
+        {% for quotation in object_list %}
+      <div class="card-header" id="heading{{ quotation.id }}">
+        <h5 class="mb-0">
+          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{ quotation.id }}" aria-expanded="true" aria-controls="collapse{{ quotation.id }}">
+              {{ quotation.customer}}
+          </button>
+           {{  quotation.created_at}}
+        </h5>
+      </div>
+
+      <div id="collapse{{ quotation.id }}" class="collapse" aria-labelledby="heading{{ quotation.id }}" data-parent="#accordionQuotation">
+        <div class="card-body">
+            <h4>Total: {{ quotation.total }} $ </h4>
+            <a href="{% url 'quotation_detail' quotation.id %}"> To Detail Quotation</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    </div>
+
+
+</section>
+
+{% endblock %}

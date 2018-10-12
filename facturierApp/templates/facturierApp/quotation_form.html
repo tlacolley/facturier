@@ -6,10 +6,13 @@
 
 
 
-<form class="QuotationCreateForm" method="post" action="">
+<form class="QuotationCreateForm" method="post" action=".">
     <h2>Choise your client</h2>
     {% csrf_token %}
     {{ form.as_p }}
+
+    {{ form.management_form }}
+
     <h2>Order details</h2>
     <table id="id_orders_table" border="0" cellpadding="0" cellspacing="5">
         <thead>
@@ -19,17 +22,25 @@
             </tr>
         </thead>
         <tbody>
+            <!-- Le management_form doit utilise la boucle et non la variable  -->
+            {{ inlines.management_form }}
+
             {% for formset in inlines %}
+
+            {{ formset.management_form }}
+
             {% for form in formset %}
+
 
             <tr id="{{ form.prefix }}-row">
                 <td>
-                    {% for fld in form.hidden_fields %}{{ fld }}{% endfor %}
+
                     {{ form.product }}
 
                 </td>
                 <td class="quant">{{ form.quantity }}</td>
             </tr>
+
             {% endfor %}
             {% endfor %}
         </tbody>
@@ -37,11 +48,11 @@
     <p>
 
 
-        {{ formset.management_form }}
-        {{ form.management_form }}
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Submit"/>
     </p>
+
 </form>
+
 
 
 

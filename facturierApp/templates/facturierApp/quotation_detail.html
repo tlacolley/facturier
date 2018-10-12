@@ -1,0 +1,79 @@
+{% extends 'facturierApp/base.html'%}
+
+{% block content %}
+
+<section>
+<h2> Quotation Detail</h2>
+<article class="DetailQuotation">
+
+<section class="flex">
+    <dl>
+        <dd>Quotation # </dd>
+        <dd> 505050</dd>
+        <dt> Creation Date </dt>
+        <dd> {{ quotation.created_at}} </dd>
+        <dt>Quotation for</dt>
+        <dd>
+            | {{ quotation.customer }} <br>
+            | {{ quotation.customer.address }}
+
+        </dd>
+    </dl>
+    </section>
+    <section class="flex">
+        <dl class="bloc" >
+            <dl>
+                <dt>Attn </dt>
+                <dd>Le Big Boss </dd>
+                <dt> Phone </dt>
+                <dd> 0980498480984</dd>
+                <dt> Email</dt>
+                <dd> bigboss@bigcompanylongemail.com </dd>
+            </dl>
+        </dl>
+        <dl class="bloc">
+            <dt> Service Decription </dt>
+            <dd> Deve </dd>
+            <dt> Total Periode </dt>
+            <dd>  24 Mai au 2 Juin 2014 </dd>
+        </dl>
+    </section>
+    <section class="flex totalPart">
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price Unit</th>
+                <th>Quantity</th>
+                <th>Total Line</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for line in line_quotation %}
+            <tr>
+                <td> {{ line.product}}</td>
+                <td>{{ line.product.price }} $</td>
+                <td>{{ line.quantity}}</td>
+                <td>{{ line.total_line }} $</td>
+
+            </tr>
+                {% endfor %}
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td>Total:</td>
+                <td> {{ quotation.total }} $ </td>
+            </tr>
+        </tfoot>
+    </table>
+
+</section>
+
+
+
+
+  </article>
+</section>
+
+{% endblock %}

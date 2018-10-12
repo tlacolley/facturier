@@ -4,12 +4,15 @@ from __future__ import unicode_literals
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.db.models import Q
+
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from django.views.generic.edit import CreateView, UpdateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from datetime import datetime
 from .models import Customer, Product, LineQuotation, LineBill, Quotation, Bill
 from .forms import *
+
+
 
 class IndexView(ListView):
     model = Customer
@@ -35,14 +38,6 @@ class CustomerListView(ListView):
             return Customer.objects.all()
 
 
-class CustomerCreateView(LoginRequiredMixin, CreateView):
-    model = Customer
-    fields = "__all__"
-
-    def get_success_url(self):
-        return reverse('customer_detail', args=[self.object.slug])
-
-
 class CustomerDetailView(DetailView):
     model = Customer
 
@@ -50,15 +45,6 @@ class CustomerDetailView(DetailView):
         context = super(CustomerDetailView,self).get_context_data(**kwargs)
         context["quotations"] = Quotation.objects.all()
         return context
-
-
-
-class CustomerUpdate(LoginRequiredMixin, UpdateView):
-    model = Customer
-    fields = "__all__"
-
-    def get_success_url(self):
-        return reverse('customer_detail', args=[self.object.slug])
 
 
 class CustomerRemoveView(LoginRequiredMixin, DeleteView):
@@ -84,22 +70,38 @@ class ProductDetailView(DetailView):
     model = Product
 
 
-class ProductCreateView(LoginRequiredMixin, CreateView):
-    model = Product
-    fields = "__all__"
-
-    def get_success_url(self):
-        return reverse('product_detail', args=[self.object.slug])
-
-
-class ProductUpdate(LoginRequiredMixin, UpdateView):
-    model = Product
-    fields = "__all__"
-
-    def get_success_url(self):
-        return reverse('product_detail', args=[self.object.slug])
-
-
 class ProductRemoveView(LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('product_list')
+
+
+# Quotation viewsdz
+
+class QuotationListView(ListView):
+    model = Quotation
+
+    def get_context_data(self, **kwargs):
+        context = ListView.get_context_data(self, **kwargs)
+        context['products'] = Product.objects.all()
+        context['line_quotation'] = LineQuotation.objects.all()
+        return context
+
+
+    def get_queryset(self):
+        query = self.request.GET.get('q', None)
+        print query
+        if query != None:
+            return Quotation.objects.filter(Q(customer__first_name__icontains=query) | Q(customer__last_name__icontains=query))
+        else:
+            return Quotation.objects.all()
+
+
+class QuotationDetailView(DetailView):
+    model = Quotation
+
+    def get_context_data(self, **kwargs):
+        context = DetailView.get_context_data(self, **kwargs)
+        context['identity_quot'] = self.kwargs['pk']
+        context['products'] = Product.objects.filter()
+        context['line_quotation'] = LineQuotation.objects.filter(quotation = self.object)
+        return context
