@@ -8,14 +8,17 @@
 
 <section class="flex">
     <dl>
-        <dd>Quotation # </dd>
-        <dd> 505050</dd>
+        <dd>Quotation: </dd>
+        <dd> #  {{ quotation.pk }}</dd>
         <dt> Creation Date </dt>
         <dd> {{ quotation.created_at}} </dd>
         <dt>Quotation for</dt>
         <dd>
-            | {{ quotation.customer }} <br>
-            | {{ quotation.customer.address }}<br>
+            |<a href="#" id="customer_name" class="editable" data-type="text" data-pk="{{ quotation.id }}" data-url="{% url 'quotation_field_edit' quotation.id quotation.customer.last_name %}" data-title="Enter Customer name">{{ quotation.customer }}</a>
+
+             <br>
+            | <a href="#" id="customer_add" class="editable" data-type="text" data-pk="{{ quotation.id }}" data-url="{% url 'quotation_field_edit' quotation.id quotation.customer.address %}" data-title="Enter Customer address">{{ quotation.customer.address }}</a><br>
+
             | {{ quotation.status}}
 
         </dd>
@@ -76,5 +79,7 @@
 
   </article>
 </section>
+
+
 
 {% endblock %}

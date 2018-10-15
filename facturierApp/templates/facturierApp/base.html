@@ -8,8 +8,9 @@
     <title>Facturier</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/style.css'%}" />
     <link rel="stylesheet" type="text/css" media="screen" href="{% static 'js-datepicker/datepicker.css'%}" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css'%}" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/style.css'%}" />
 
 </head>
 
@@ -36,9 +37,13 @@
     </main>
     {% include 'facturierApp/footer.html'%}
     <script src="{% static 'jquery/dist/jquery.min.js' %}"></script>
+
     <script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/jquery.formset.js' %}"></script>
     <script src="{% static 'js-datepicker/datepicker.min.js' %}"></script>
+
+    <script src="{% static 'x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js' %}"></script>
+    <script src="{% static 'popper.js/dist/umd/popper.js' %}"></script>
 
     <script type="text/javascript">
         $(function () {
@@ -52,6 +57,14 @@
         })
     </script>
     <script src="{% static 'js/scriptFilterForm.js' %}"></script>
+
+    <script type="text/javascript">
+    $.fn.editable.defaults.mode = 'inline';
+    $(document).ready(function() {
+        $('.editable').editable();
+    });
+
+    </script>
 </body>
 
 </html>

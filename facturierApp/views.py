@@ -11,7 +11,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from datetime import datetime
 from .models import Customer, Product, LineQuotation, LineBill, Quotation, Bill
 from .forms import *
-
+from .ajax_views import *
 
 
 class IndexView(ListView):
