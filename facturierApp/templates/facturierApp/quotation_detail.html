@@ -14,12 +14,13 @@
         <dd> {{ quotation.created_at}} </dd>
         <dt>Quotation for</dt>
         <dd>
-            |<a href="#" id="customer_name" class="editable" data-type="text" data-pk="{{ quotation.id }}" data-url="{% url 'quotation_field_edit' quotation.id quotation.customer.last_name %}" data-title="Enter Customer name">{{ quotation.customer }}</a>
+            |<a href="#" id="customer_name" class="editable" data-type="text" data-pk="{{ quotation.id }}" data-url="{% url 'quotation_field_edit' quotation.id "customer.first_name" %}" data-title="Enter Customer name">{{ quotation.customer.first_name }}</a>
+            <a href="#" id="customer_name" class="editable" data-type="text" data-pk="{{ quotation.id }}" data-url="{% url 'quotation_field_edit' quotation.id "customer.last_name" %}" data-title="Enter Customer name">{{ quotation.customer.last_name }}</a>
 
              <br>
-            | <a href="#" id="customer_add" class="editable" data-type="text" data-pk="{{ quotation.id }}" data-url="{% url 'quotation_field_edit' quotation.id quotation.customer.address %}" data-title="Enter Customer address">{{ quotation.customer.address }}</a><br>
+            | <a href="#" id="customer_add" class="editable" data-type="text" data-pk="{{ quotation.id }}" data-url="{% url 'quotation_field_edit' quotation.id "customer.address" %}" data-title="Enter Customer address">{{ quotation.customer.address }}</a><br>
 
-            | {{ quotation.status}}
+            |  <a href="#" id="quotation_status" class="" data-type="select" data-pk="{{ quotation.id }}" data-url="{% url 'quotation_field_edit' quotation.id  quotation.status %}" data-title="Select status">{{ quotation.status}}</a>
 
         </dd>
     </dl>
@@ -57,7 +58,9 @@
             <tr>
                 <td> {{ line.product}}</td>
                 <td>{{ line.product.price }} $</td>
-                <td>{{ line.quantity}}</td>
+                <td>
+                    <a href="#" id="line-quantity-{{line.id}}" class="editable" data-type="text" data-pk="{{ line.id }}" data-url="{% url 'quotation_field_edit' quotation.id "line.quantity" %}" data-title="qty">{{ line.quantity}}</a>
+                    </td>
                 <td>{{ line.total_line }} $</td>
 
             </tr>

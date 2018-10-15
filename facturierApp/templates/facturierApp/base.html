@@ -62,6 +62,17 @@
     $.fn.editable.defaults.mode = 'inline';
     $(document).ready(function() {
         $('.editable').editable();
+
+        $('#quotation_status').editable({
+
+        source: [
+              {value: 1, text: 'Progress'},
+              {value: 2, text: 'Relance'},
+              {value: 3, text: 'Valid'}
+           ]
+    });
+
+
     });
 
     </script>

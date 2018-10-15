@@ -43,7 +43,7 @@ urlpatterns = [
 
     url(r'^quotation/$', QuotationListView.as_view(), name="quotation_list"),
     url(r'^quotation/(?P<pk>\d+)/$', QuotationDetailView.as_view(), name="quotation_detail"),
-    url(r'^quotation/(?P<pk>\d+)/(?P<update_field>\w+)/$', QuotationFieldEditView.as_view(), name="quotation_field_edit"),
+    url(r'^quotation/(?P<pk>\d+)/(?P<update_field>[.\w]+)/$', QuotationFieldEditView.as_view(), name="quotation_field_edit"),
 
     url(r'^quotation/create/$', QuotationCreateView.as_view(), name="quotation_create"),
 ]

@@ -9,7 +9,18 @@ from .models import Customer, Product, LineQuotation, LineBill, Quotation, Bill
 @method_decorator(csrf_exempt, name='dispatch')
 class QuotationFieldEditView(View):
     def post(self, request, pk, update_field, **kwargs):
-        quotation = Quotation.objects.get(pk=pk)
-        setattr(quotation, update_field, request.POST.get("value") )
-        quotation.save()
-        return HttpResponse()
+        quotation = Quotation.objects.get(id=pk)
+        if update_field.startswith("customer."):
+            update_field = update_field.replace("customer.", "")
+            setattr(quotation.customer, update_field, request.POST.get("value"))
+            quotation.customer.save()
+        elif update_field.startswith("line."):
+            update_field = update_field.replace("line.", "")
+            line = quotation.linequotation_set.get(id=request.POST.get("pk"))
+            setattr(line, update_field, request.POST.get("value"))
+            line.save()
+        else:
+            setattr(quotation, update_field, request.POST.get("value"))
+            quotation.save()
+
+        return HttpResponse('success')
