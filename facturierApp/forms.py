@@ -57,3 +57,15 @@ class QuotationCreateView(CreateWithInlinesView):
 
     def get_success_url(self):
         return reverse('index')
+
+
+class LineQuotationForm(forms.ModelForm):
+    class Meta:
+        model = LineQuotation
+        fields = "__all__"
+
+
+class LineQuotationDelete(forms.ModelForm):
+    class Meta:
+        model = LineQuotation
+        fields = "__all__"

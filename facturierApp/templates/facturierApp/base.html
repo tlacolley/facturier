@@ -57,24 +57,91 @@
         })
     </script>
     <script src="{% static 'js/scriptFilterForm.js' %}"></script>
+    <!-- <script src="{% static 'js/scriptInlineDevis.js' %}"></script> -->
 
     <script type="text/javascript">
+
     $.fn.editable.defaults.mode = 'inline';
+    // calcul des prix dynamique
     $(document).ready(function() {
-        $('.editable').editable();
+        // calcul_total_line()
+        function applyEditable(){
+            $('.editable').editable({
+                success: function(response, newValue) {
+                    if(response.updatedLines){
+                        $('.totalPart').html(response.updatedLines)
+                        applyEditable()
+                    }
+                }
+            });
+        }
+        applyEditable()
+
 
         $('#quotation_status').editable({
-
         source: [
-              {value: 1, text: 'Progress'},
-              {value: 2, text: 'Relance'},
-              {value: 3, text: 'Valid'}
+            {% for key, val in status_choices %}
+            {value: '{{key}}', text: '{{val}}'},
+            {% endfor %}
            ]
     });
+    });
+    </script>
+
+    <script type="text/javascript">
+    // Script Add and Delete Inline Devis
+    $(document).ready(function() {
+        var total_lines = $('.total_line');
+        var lines = $('.line_quotation');
+        var table = $('.body_line_quotation');
+        var last_line = $('table tr:last');
+        var button_add = $('<td class=""><button type="button" name="button">add</button></td>');
+        var button_rmv = $('<td class=""><button type="button" name="button">del</button></td>');
+
+        // console.log(lines);
+
+    //     lines.each(function() {
+    //         lines.append(button_rmv);
+    // });
+
+
+
+        // last_line.append(button_add);
+
+        // button_add.click(function (){
+        //
+        //     var form = $('<form class="form-inline editableform" action="." method="post"></form>')
+        //     var btn_valid = $('<button type="submit" class="btn btn-primary btn-sm editable-submit"> go</button>')
+        //     var label_product = $('<label for="selectProduct">selectProduct</label>')
+        //     var label_qty = $('<label for="selectQty">selectQty</label>')
+        //     var select = $("<select name='selectProduct' ></select>")
+        //     var input_qty = $('<input type="text" name="selectQty" value="">')
+        //
+        //     {% for product in products%}
+        //     select.append($("<option></option>").attr("value",'{{product.name}}').text('{{product.name}}') )
+        //     // console.log('{{product}}');
+        //     {% endfor %}
+        //
+        //     // form.append({% csrf_token %});
+        //     form.append(label_product);
+        //     form.append(select);
+        //     form.append(label_qty);
+        //     form.append(input_qty);
+        //     form.append(btn_valid);
+        //
+        //     $('.totalPart').append(form);
+        //     // last_line.append(form);
+        //
+        //
+        //
+        // });
+
+
+
+
 
 
     });
-
     </script>
 </body>
 

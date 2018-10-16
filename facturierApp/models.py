@@ -37,12 +37,12 @@ class Product(models.Model):
         return self.name
 # Quotationet bill
 
+STATUS_CHOICES = (
+('Progress', 'In Progress'),
+('Relance', 'A Relancer'),
+('Valid', 'Valid'),
+)
 class Quotation(models.Model):
-    STATUS_CHOICES = (
-        ('Progress', 'In Progress'),
-        ('Relance', 'A Relancer'),
-        ('Valid', 'Valid'),
-    )
     customer = models.ForeignKey(Customer, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True,
                                 verbose_name="Date de creation")

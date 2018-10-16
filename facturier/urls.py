@@ -19,7 +19,7 @@ from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth import views as auth_views
 from django.shortcuts import render, redirect
-from facturierApp.views import CustomerListView, CustomerCreateView, CustomerDetailView, CustomerUpdate, CustomerRemoveView, IndexView, ProductListView, ProductDetailView, ProductCreateView, ProductUpdate, ProductRemoveView, QuotationListView, QuotationCreateView, QuotationDetailView, QuotationFieldEditView
+from facturierApp.views import *
 
 
 urlpatterns = [
@@ -46,4 +46,6 @@ urlpatterns = [
     url(r'^quotation/(?P<pk>\d+)/(?P<update_field>[.\w]+)/$', QuotationFieldEditView.as_view(), name="quotation_field_edit"),
 
     url(r'^quotation/create/$', QuotationCreateView.as_view(), name="quotation_create"),
+    url(r'^quotation/line/create/$', QuotationLineCreateView.as_view(), name="quotation_line_create"),
+    url(r'^quotation/line/delete/(?P<pk>\d+)/$', QuotationLineDeleteView.as_view(), name="quotation_line_delete"),
 ]

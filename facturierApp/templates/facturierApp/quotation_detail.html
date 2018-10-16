@@ -20,7 +20,7 @@
              <br>
             | <a href="#" id="customer_add" class="editable" data-type="text" data-pk="{{ quotation.id }}" data-url="{% url 'quotation_field_edit' quotation.id "customer.address" %}" data-title="Enter Customer address">{{ quotation.customer.address }}</a><br>
 
-            |  <a href="#" id="quotation_status" class="" data-type="select" data-pk="{{ quotation.id }}" data-url="{% url 'quotation_field_edit' quotation.id  quotation.status %}" data-title="Select status">{{ quotation.status}}</a>
+            |  <a href="#" id="quotation_status" class="" data-type="select" data-pk="{{ quotation.id }}" data-url="{% url 'quotation_field_edit' quotation.id  'status' %}" data-title="Select status">{{ quotation.status}}</a>
 
         </dd>
     </dl>
@@ -28,8 +28,8 @@
     <section class="flex">
         <dl class="bloc" >
             <dl>
-                <dt>Attn </dt>
-                <dd>Le Big Boss </dd>
+                <dt> Attn </dt>
+                <dd> Le Big Boss </dd>
                 <dt> Phone </dt>
                 <dd> 0980498480984</dd>
                 <dt> Email</dt>
@@ -40,43 +40,15 @@
             <dt> Service Decription </dt>
             <dd> Deve </dd>
             <dt> Total Periode </dt>
-            <dd>  24 Mai au 2 Juin 2014 </dd>
+            <dd> 24 Mai au 2 Juin 2014 </dd>
         </dl>
     </section>
     <section class="flex totalPart">
-    <table>
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Price Unit</th>
-                <th>Quantity</th>
-                <th>Total Line</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for line in line_quotation %}
-            <tr>
-                <td> {{ line.product}}</td>
-                <td>{{ line.product.price }} $</td>
-                <td>
-                    <a href="#" id="line-quantity-{{line.id}}" class="editable" data-type="text" data-pk="{{ line.id }}" data-url="{% url 'quotation_field_edit' quotation.id "line.quantity" %}" data-title="qty">{{ line.quantity}}</a>
-                    </td>
-                <td>{{ line.total_line }} $</td>
 
-            </tr>
-                {% endfor %}
-        </tbody>
+         {% include "facturierApp/partials/quotation_lines.html"  %}
 
-        <tfoot>
-            <tr>
-                <td>Total:</td>
-                <td> {{ quotation.total }} $ </td>
-            </tr>
-        </tfoot>
-    </table>
 
 </section>
-
 
 
 

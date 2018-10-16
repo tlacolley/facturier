@@ -8,8 +8,10 @@ from django.db.models import Q
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from django.views.generic.edit import CreateView, UpdateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
-from .models import Customer, Product, LineQuotation, LineBill, Quotation, Bill
+from .models import Customer, Product, LineQuotation, LineBill, Quotation, Bill, STATUS_CHOICES
 from .forms import *
 from .ajax_views import *
 
@@ -115,6 +117,28 @@ class QuotationDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = DetailView.get_context_data(self, **kwargs)
         context['identity_quot'] = self.kwargs['pk']
-        context['products'] = Product.objects.filter()
+        context['status_choices'] = STATUS_CHOICES
+        context['products'] = Product.objects.all()
         context['line_quotation'] = LineQuotation.objects.filter(quotation = self.object)
+
+        context["line_quotation_form"] = LineQuotationForm(initial={"quotation" : self.object})
+        context["line_quotation_delete"] = LineQuotationDelete(initial={"quotation" : self.object})
         return context
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+class QuotationLineCreateView(CreateView):
+    model = LineQuotation
+    form_class = LineQuotationForm
+
+    def get_success_url(self):
+        return reverse("quotation_detail", args=[self.object.quotation.id] )
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+class QuotationLineDeleteView(DeleteView):
+    model = LineQuotation
+    form_class = LineQuotationForm
+
+    def get_success_url(self):
+        return reverse("quotation_detail", args=[self.object.quotation.id] )
