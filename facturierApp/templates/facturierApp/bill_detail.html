@@ -1,0 +1,93 @@
+y{% extends 'facturierApp/base.html'%}
+
+{% block content %}
+
+<section>
+<h2> Bill Detail</h2>
+<article class="DetailBill">
+
+<section class="flex">
+    <dl>
+        <dd>Bill: </dd>
+        <dd> #  {{ bill.pk }}</dd>
+        <dt> Creation Date </dt>
+        <dd> {{ bill.created_at}} </dd>
+        <dt>bill for</dt>
+        <dd>
+            |{{ bill.customer.first_name }}
+            {{ bill.customer.last_name }} <br>
+            | {{ bill.customer.address }}<br>
+
+            | {{ bill.payment}}
+
+        </dd>
+    </dl>
+    </section>
+    <section class="flex">
+        <dl class="bloc" >
+            <dl>
+                <dt> Attn </dt>
+                <dd> Le Big Boss </dd>
+                <dt> Phone </dt>
+                <dd> 0980498480984</dd>
+                <dt> Email</dt>
+                <dd> bigboss@bigcompanylongemail.com </dd>
+            </dl>
+        </dl>
+        <dl class="bloc">
+            <dt> Service Decription </dt>
+            <dd> Deve </dd>
+            <dt> Total Periode </dt>
+            <dd> 24 Mai au 2 Juin 2014 </dd>
+        </dl>
+    </section>
+
+    <section class="flex totalPart">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price Unit</th>
+                    <th>Quantity</th>
+                    <th>Total Line</th>
+                </tr>
+            </thead>
+            <tbody class="body_line_quotation">
+
+        {% for line in bill.linebill_set.all %}
+        <tr class="line_quotation line_product{{line.id}}">
+            <td> {{ line.product}}</td>
+            <td>{{ line.product.price }} $</td>
+            <td>
+                {{ line.quantity}}
+                </td>
+            <td class="total_line" >{{ line.total_line }} $</td>
+
+        </td>
+
+        </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>Total:</td>
+                <td> {{ bill.total }} $ </td>
+            </tr>
+        </tfoot>
+
+
+
+        </table>
+
+
+
+</section>
+
+
+  </article>
+</section>
+
+
+
+{% endblock %}

@@ -140,16 +140,14 @@
 
 
     var btnValid = $('#btn_valid_quot{{ quotation.id }}')
-console.log(btnValid);
     btnValid.click(function(){
 
         var result = confirm("Are you sure to validate quotation?");
-
         if (result) {
                 $.ajax({
                 type: "POST",
                 url: "{% url 'quotation_valid'  %}",
-                data: {'pk' : this.id} ,
+                data: $("#formSelectPayment").serialize(),
                 success: function (data) {
                      console.log(data["HTTPRESPONSE"]);
                         }
@@ -162,27 +160,6 @@ console.log(btnValid);
     })
 
 
-
-
-     //
-     // $("#yesno_dialog").dialog({
-     //     title: "Yes or No",
-     //     resizable: false,
-     //     modal: true,
-     //     buttons: {
-     //         "Yes" : function () {
-     //             alert("You chose yes.. now let's do something else here");
-     //             $(this).dialog("close");
-     //             $(this).remove();
-     //         },
-     //         "No" : function (){
-     //             alert("You chose no.. now let's do something else here");
-     //             $(this).dialog("close");
-     //             $(this).remove();
-     //         }
-     //
-     //     }
-     // });
 
 
 

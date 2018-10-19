@@ -72,16 +72,16 @@ class QuotationValidationView(View):
     model = Quotation
 
     def post(self, request, **kwargs):
-        req = request.POST.get('pk')
-        quotaion_id = req.replace("btn_valid_quot","")
+        quotaion_id = request.POST.get('idQuotation')
         quotation = Quotation.objects.get(pk=quotaion_id)
         quotation_custo = quotation.customer.id
         customer = Customer.objects.get(pk=quotation_custo)
+        payement_choice = request.POST.get('selectPayment')
         create_bill = Bill.objects.create(customer=customer)
         linesQuotation = quotation.linequotation_set.all()
 
         for lineQ in linesQuotation:
-            creation_line_bill = LineBill.objects.create(product=lineQ.product,quantity=lineQ.quantity,bill=create_bill)
+            creation_line_bill = LineBill.objects.create(product=lineQ.product,quantity=lineQ.quantity,bill=create_bill,payment=payement_choice)
 
 
 

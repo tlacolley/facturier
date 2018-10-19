@@ -121,8 +121,31 @@ class QuotationDetailView(DetailView):
         context = DetailView.get_context_data(self, **kwargs)
         context['identity_quot'] = self.kwargs['pk']
         context['status_choices'] = STATUS_CHOICES
+        context['payement_choice'] = Bill.PAYMENT_CHOICES
         context['products'] = Product.objects.all()
         context['line_quotation'] = LineQuotation.objects.filter(quotation = self.object)
         context["line_quotation_form"] = LineQuotationForm(initial={"quotation" : self.object})
         context["line_quotation_delete"] = LineQuotationDelete
+        return context
+
+
+class BillListView(ListView):
+    model = Bill
+
+    def get_context_data(self, **kwargs):
+        context = ListView.get_context_data(self, **kwargs)
+        context['products'] = Product.objects.all()
+        context['line_bill'] = LineBill.objects.all()
+        return context
+
+
+class BillDetailView(DetailView):
+    model = Bill
+
+    def get_context_data(self, **kwargs):
+        context = DetailView.get_context_data(self, **kwargs)
+        context['identity_bill'] = self.kwargs['pk']
+        context['products'] = Product.objects.all()
+        context['line_bill'] = LineBill.objects.filter(bill = self.object)
+
         return context

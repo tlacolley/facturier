@@ -1,0 +1,30 @@
+.button{
+    border-radius: 6px;
+    background: none;
+    color:blue;
+
+}
+.btnrmv{
+    color: red;
+    border: 1px solid red;
+}
+.btnrmv:hover{
+    color: white;
+    background-color: red;
+}
+
+.validDiv{
+    grid-column: 2/3;
+    text-align: center;
+    .btnValid{
+        margin-top: 2%;
+        width: 50%;
+        border: 1px solid #007bff;
+
+    }
+    .btnValid:hover{
+        background-color: #007bff;
+        color:white;
+
+    }
+}

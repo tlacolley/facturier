@@ -72,6 +72,11 @@ class Bill(models.Model):
                                 verbose_name="Date de validation")
     payment = models.CharField(max_length=10, choices=PAYMENT_CHOICES, default='CASH')
 
+    def total(self):
+        res = 0
+        for line in self.linebill_set.all():
+            res += line.total_line()
+        return res
 # Lines de commandes
 
 class LineQuotation(models.Model):
@@ -86,3 +91,6 @@ class LineBill(models.Model):
     product = models.ForeignKey(Product, null=True, blank=True)
     quantity = models.IntegerField()
     bill = models.ForeignKey(Bill, null=True, blank=True)
+
+    def total_line(self):
+        return self.quantity * self.product.price

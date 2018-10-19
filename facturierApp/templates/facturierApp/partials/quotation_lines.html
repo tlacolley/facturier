@@ -18,7 +18,7 @@
         </td>
     <td class="total_line" >{{ line.total_line }} $</td>
     <td> <form class="" action="{% url 'quotation_line_delete' %}" method="post">
-        <button type="button" class="btnrmv" id="{{ line.id }}" name="button">delete</button>
+        <button type="button" class="btnrmv button" id="{{ line.id }}" name="button">delete</button>
     </form>
 </td>
 
@@ -35,9 +35,8 @@
     {{line_quotation_form.quotation.as_hidden}}
     {{line_quotation_form.product}}
     {{line_quotation_form.quantity}}
-    <button type="button" class="btnAdd btn btn-primary" name="button">Add</button>
+    <button type="button" class="button btnAdd btn btn-primary" name="button">Add</button>
 
 </form>
-
 
 </table>

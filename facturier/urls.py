@@ -49,4 +49,7 @@ urlpatterns = [
     url(r'^quotation/line/create/$', QuotationLineCreateView.as_view(), name="quotation_line_create"),
     url(r'^quotation/line/delete/$', QuotationLineDeleteView.as_view(), name="quotation_line_delete"),
     url(r'^quotation/validation/$', QuotationValidationView.as_view(), name="quotation_valid"),
+
+    url(r'^bill/$', BillListView.as_view(), name="bill_list"),
+    url(r'^bill/(?P<pk>\d+)/$', BillDetailView.as_view(), name="bill_detail"),
 ]

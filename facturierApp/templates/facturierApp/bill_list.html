@@ -1,0 +1,71 @@
+{% extends 'facturierApp/base.html'%}
+
+{% block content %}
+
+<section class="listBill">
+
+
+
+  <h2>List Bill</h2>
+  <div class="FilterSide">
+      Filter
+
+  </div>
+  <div class="filterBox">
+
+      <form class="formBill formDate " action="." method="get">
+
+            <label for="datePickerInput">Pick a date</label>
+            <input  type="text" id="datePickerInput" name="datePickerInput">
+            <input type="hidden" name="dateInputHide" value="">
+        </form>
+
+    <form class="formBill formStatus" action="." method="get">
+        <label for="selectStatus"> Select Status devis</label>
+        <select name="selectStatus" id="selectStatus">
+            <option value="Progress"> ----- </option>
+            <option value="Progress"> In Progress</option>
+            <option value="Relance"> Relance</option>
+            <option value="Valid">Valid</option>
+        </select>
+    </form>
+
+    <form class="formBill formOrder" action="." method="get">
+        <label>Select an Order</label>
+        <fieldset>
+            <input type="radio" name="orderByFilter"  value="customer"  />
+            <label for="name">Name</label>
+            <input type="radio" name="orderByFilter"  value="created_at"  />
+            <label for="date">Date</label>
+         </fieldset>
+     </form>
+
+</div>
+
+  <div class="accordion" id="accordionBill">
+    <div class="card">
+        {% for Bill in object_list %}
+      <div class="card-header" id="heading{{ Bill.id }}">
+        <h5 class="mb-0">
+          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{ Bill.id }}" aria-expanded="true" aria-controls="collapse{{ Bill.id }}">
+              {{ Bill.customer}}
+          </button>
+           {{  Bill.created_at}}
+        </h5>
+      </div>
+
+      <div id="collapse{{ Bill.id }}" class="collapse" aria-labelledby="heading{{ Bill.id }}" data-parent="#accordionBill">
+        <div class="card-body">
+            <h4>Total: {{ Bill.total }} $ </h4>
+            <a href="{% url 'bill_detail' Bill.id %}"> To Detail Bill</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    </div>
+
+
+</section>
+
+{% endblock %}
