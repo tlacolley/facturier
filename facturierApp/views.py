@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import json
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.db.models import Q
+from django.http import HttpResponse, JsonResponse
+from django.template.loader import render_to_string
 
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from django.views.generic.edit import CreateView, UpdateView, View
@@ -120,25 +123,6 @@ class QuotationDetailView(DetailView):
         context['status_choices'] = STATUS_CHOICES
         context['products'] = Product.objects.all()
         context['line_quotation'] = LineQuotation.objects.filter(quotation = self.object)
-
         context["line_quotation_form"] = LineQuotationForm(initial={"quotation" : self.object})
-        context["line_quotation_delete"] = LineQuotationDelete(initial={"quotation" : self.object})
+        context["line_quotation_delete"] = LineQuotationDelete
         return context
-
-
-@method_decorator(csrf_exempt, name="dispatch")
-class QuotationLineCreateView(CreateView):
-    model = LineQuotation
-    form_class = LineQuotationForm
-
-    def get_success_url(self):
-        return reverse("quotation_detail", args=[self.object.quotation.id] )
-
-
-@method_decorator(csrf_exempt, name="dispatch")
-class QuotationLineDeleteView(DeleteView):
-    model = LineQuotation
-    form_class = LineQuotationForm
-
-    def get_success_url(self):
-        return reverse("quotation_detail", args=[self.object.quotation.id] )

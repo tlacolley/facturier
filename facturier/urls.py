@@ -47,5 +47,6 @@ urlpatterns = [
 
     url(r'^quotation/create/$', QuotationCreateView.as_view(), name="quotation_create"),
     url(r'^quotation/line/create/$', QuotationLineCreateView.as_view(), name="quotation_line_create"),
-    url(r'^quotation/line/delete/(?P<pk>\d+)/$', QuotationLineDeleteView.as_view(), name="quotation_line_delete"),
+    url(r'^quotation/line/delete/$', QuotationLineDeleteView.as_view(), name="quotation_line_delete"),
+    url(r'^quotation/validation/$', QuotationValidationView.as_view(), name="quotation_valid"),
 ]

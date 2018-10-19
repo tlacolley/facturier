@@ -59,10 +59,12 @@ class QuotationCreateView(CreateWithInlinesView):
         return reverse('index')
 
 
+
 class LineQuotationForm(forms.ModelForm):
     class Meta:
         model = LineQuotation
         fields = "__all__"
+
 
 
 class LineQuotationDelete(forms.ModelForm):

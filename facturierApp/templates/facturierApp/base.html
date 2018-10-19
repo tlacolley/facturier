@@ -77,7 +77,7 @@
         }
         applyEditable()
 
-
+ //  permet de selectionner les status depuis la DB
         $('#quotation_status').editable({
         source: [
             {% for key, val in status_choices %}
@@ -85,12 +85,13 @@
             {% endfor %}
            ]
     });
-    });
-    </script>
 
-    <script type="text/javascript">
+
+
+
+
     // Script Add and Delete Inline Devis
-    $(document).ready(function() {
+
         var total_lines = $('.total_line');
         var lines = $('.line_quotation');
         var table = $('.body_line_quotation');
@@ -98,50 +99,95 @@
         var button_add = $('<td class=""><button type="button" name="button">add</button></td>');
         var button_rmv = $('<td class=""><button type="button" name="button">del</button></td>');
 
-        // console.log(lines);
+        $('.btnAdd').click(function () {
+                console.log($("#form_add_line").serializeArray());
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'quotation_line_create' %}",
+                    dataType: "json",
+                    data: $("#form_add_line").serialize(),
+                    success: function(response) {
+                        $('.totalPart').html(response.updatedLines)
+                        applyEditable()
 
-    //     lines.each(function() {
-    //         lines.append(button_rmv);
-    // });
-
-
-
-        // last_line.append(button_add);
-
-        // button_add.click(function (){
-        //
-        //     var form = $('<form class="form-inline editableform" action="." method="post"></form>')
-        //     var btn_valid = $('<button type="submit" class="btn btn-primary btn-sm editable-submit"> go</button>')
-        //     var label_product = $('<label for="selectProduct">selectProduct</label>')
-        //     var label_qty = $('<label for="selectQty">selectQty</label>')
-        //     var select = $("<select name='selectProduct' ></select>")
-        //     var input_qty = $('<input type="text" name="selectQty" value="">')
-        //
-        //     {% for product in products%}
-        //     select.append($("<option></option>").attr("value",'{{product.name}}').text('{{product.name}}') )
-        //     // console.log('{{product}}');
-        //     {% endfor %}
-        //
-        //     // form.append({% csrf_token %});
-        //     form.append(label_product);
-        //     form.append(select);
-        //     form.append(label_qty);
-        //     form.append(input_qty);
-        //     form.append(btn_valid);
-        //
-        //     $('.totalPart').append(form);
-        //     // last_line.append(form);
-        //
-        //
-        //
-        // });
+                    }
+                });
+                        // applyEditable()
+                        // $('.form_add_line').submit()
+            });
 
 
+        $(".btnrmv").click(function () {
 
+            $tr = $(this).closest("tr");
+            $tr.remove();
+            $.ajax({
+                        type: "POST",
+                        url: "{% url 'quotation_line_delete'  %}",
+                        data: {'pk' : this.id} ,
+                        success: function (data) {
+                             console.log(data["HTTPRESPONSE"]);
+                        }
+                    });
+                });
 
 
 
     });
+
+
+// Script for btn Quotation to bill
+
+
+    var btnValid = $('#btn_valid_quot{{ quotation.id }}')
+console.log(btnValid);
+    btnValid.click(function(){
+
+        var result = confirm("Are you sure to validate quotation?");
+
+        if (result) {
+                $.ajax({
+                type: "POST",
+                url: "{% url 'quotation_valid'  %}",
+                data: {'pk' : this.id} ,
+                success: function (data) {
+                     console.log(data["HTTPRESPONSE"]);
+                        }
+                    });
+        } else {
+            // Do nothing; they cancelled
+        }
+
+
+    })
+
+
+
+
+     //
+     // $("#yesno_dialog").dialog({
+     //     title: "Yes or No",
+     //     resizable: false,
+     //     modal: true,
+     //     buttons: {
+     //         "Yes" : function () {
+     //             alert("You chose yes.. now let's do something else here");
+     //             $(this).dialog("close");
+     //             $(this).remove();
+     //         },
+     //         "No" : function (){
+     //             alert("You chose no.. now let's do something else here");
+     //             $(this).dialog("close");
+     //             $(this).remove();
+     //         }
+     //
+     //     }
+     // });
+
+
+
+
+
     </script>
 </body>
 
