@@ -8,4 +8,4 @@ django-autoslug==1.9.3
 django-extra-views==0.11.0
 django-dynamic-formsets==0.0.8
 django-bootstrap-datepicker-widget==0.1
-WeasyPrint==0.42.3
+django-weasyprint==0.5.4

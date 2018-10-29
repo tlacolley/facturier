@@ -1,9 +1,18 @@
+
 {% extends 'facturierApp/base.html'%}
 
 {% block content %}
 
 <section>
 <h2> Quotation Detail</h2>
+<div class="functionQuotation">
+
+    {% if not pdf  %}
+<h2> <a href="{% url 'generate_pdf' quotation.pk %}">Generate PDF</a> </h2>
+<h2> <a href="{% url 'send_pdf' quotation.pk %}">Send Mail</a> </h2>
+{% endif %}
+</div>
+
 <article class="DetailQuotation">
 
 <section class="flex">
@@ -45,16 +54,19 @@
     </section>
     <section class="flex totalPart">
 
-         {% include "facturierApp/partials/quotation_lines.html"  %}
+
+        {% include "facturierApp/partials/quotation_lines.html"  %}
 
 
 </section>
 <div class="validDiv">
 
+{% if not pdf  %}
 
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
   Valider le devis
 </button>
+{% endif %}
 </div>
 
 
@@ -76,7 +88,7 @@
           <h3> Payment: </h3>
           <form id="formSelectPayment" action="" method="post">
               <select class="" name="selectPayment">
-                  {% for key, val in payement_choice %}
+                  {% for key, val in payment_choice %}
                   <option value="{{val}}">{{val}}</option>
                   {% endfor %}
               </select>

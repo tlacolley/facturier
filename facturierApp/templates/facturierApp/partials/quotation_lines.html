@@ -1,3 +1,4 @@
+
 <table>
     <thead>
         <tr>
@@ -17,11 +18,12 @@
         <a href="#" id="line-quantity-{{line.id}}" class="editable" data-type="text" data-pk="{{ line.id }}" data-url="{% url 'quotation_field_edit' quotation.id "line.quantity" %}" data-title="qty">{{ line.quantity}}</a>
         </td>
     <td class="total_line" >{{ line.total_line }} $</td>
+    {% if not pdf  %}
     <td> <form class="" action="{% url 'quotation_line_delete' %}" method="post">
         <button type="button" class="btnrmv button" id="{{ line.id }}" name="button">delete</button>
     </form>
 </td>
-
+{% endif %}
 </tr>
 {% endfor %}
 </tbody>
@@ -31,6 +33,7 @@
         <td> {{ quotation.total }} $ </td>
     </tr>
 </tfoot>
+{% if not pdf  %}
 <form id="form_add_line" class="editable" action="{% url 'quotation_line_create' %}" method="post">
     {{line_quotation_form.quotation.as_hidden}}
     {{line_quotation_form.product}}
@@ -38,5 +41,5 @@
     <button type="button" class="button btnAdd btn btn-primary" name="button">Add</button>
 
 </form>
-
+{% endif %}
 </table>

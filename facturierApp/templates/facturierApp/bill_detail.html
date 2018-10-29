@@ -1,9 +1,17 @@
-y{% extends 'facturierApp/base.html'%}
+{% extends 'facturierApp/base.html'%}
 
 {% block content %}
 
 <section>
 <h2> Bill Detail</h2>
+<div class="functionBill">
+
+{% if not pdf  %}
+<h2> <a href="{% url 'generate_pdf_bill' bill.pk %}">Generate PDF</a> </h2>
+<h2> <a href="{% url 'send_pdf_bill' bill.pk %}">Send Mail</a> </h2>
+{% endif %}
+</div>
+
 <article class="DetailBill">
 
 <section class="flex">

@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
 <head>
     <meta charset="utf-8" />
@@ -8,15 +8,18 @@
     <title>Facturier</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'js-datepicker/datepicker.css'%}" />
-    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css'%}" />
-    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/style.css'%}" />
+    <link rel="stylesheet" href="{% static 'js-datepicker/datepicker.css'%}" />
+    <link rel="stylesheet" href="{% static 'x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css'%}" />
+    <link rel="stylesheet" href="{% static 'css/style.css'%}" />
 
 </head>
 
 <body>
+    {% if not pdf  %}
     {% include 'facturierApp/header.html'%}
+    {% endif %}
     <main>
+        {% if not pdf  %}
         {% block aside %}
         <aside>
             {% if request.user.is_authenticated %}
@@ -31,11 +34,14 @@
             {% endif %}
         </aside>
         {% endblock %}
+        {% endif %}
         {% block content %}
 
         {% endblock %}
     </main>
+    {% if not pdf  %}
     {% include 'facturierApp/footer.html'%}
+
     <script src="{% static 'jquery/dist/jquery.min.js' %}"></script>
 
     <script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
@@ -166,6 +172,7 @@
 
 
     </script>
+{% endif %}
 </body>
 
 </html>
