@@ -1,13 +1,15 @@
 from django import forms
 from django.urls import reverse
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, View
 
 
 from extra_views import CreateWithInlinesView, InlineFormSet
 from .models import Customer, Product, LineQuotation, LineBill, Quotation, Bill
 
-class CustomerCreateView(LoginRequiredMixin, CreateView):
+
+class CustomerCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
+    permission_required = "facturierApp.add_customer"
     model = Customer
     fields = "__all__"
 
@@ -15,7 +17,8 @@ class CustomerCreateView(LoginRequiredMixin, CreateView):
         return reverse('customer_detail', args=[self.object.slug])
 
 
-class CustomerUpdate(LoginRequiredMixin, UpdateView):
+class CustomerUpdate(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
+    permission_required = "facturierApp.change_customer"
     model = Customer
     fields = "__all__"
 
@@ -23,7 +26,8 @@ class CustomerUpdate(LoginRequiredMixin, UpdateView):
         return reverse('customer_detail', args=[self.object.slug])
 
 
-class ProductCreateView(LoginRequiredMixin, CreateView):
+class ProductCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
+    permission_required = "facturierApp.add_product"
     model = Product
     fields = "__all__"
 
@@ -31,7 +35,8 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return reverse('product_detail', args=[self.object.slug])
 
 
-class ProductUpdate(LoginRequiredMixin, UpdateView):
+class ProductUpdate(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
+    permission_required = "facturierApp.change_product"
     model = Product
     fields = "__all__"
 
@@ -45,7 +50,8 @@ class LineQuotationInline(InlineFormSet):
     # can_delete = True
 
 
-class QuotationCreateView(CreateWithInlinesView):
+class QuotationCreateView(PermissionRequiredMixin, CreateWithInlinesView):
+    permission_required = "facturierApp.add_quotation"
     model = Quotation
     inlines = [LineQuotationInline,]
     fields = "__all__"

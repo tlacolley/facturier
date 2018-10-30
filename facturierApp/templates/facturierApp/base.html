@@ -23,11 +23,13 @@
         {% block aside %}
         <aside>
             {% if request.user.is_authenticated %}
-            <h3>Welcome back {{ request.user.username }}!</h3>
-            <h3><a class="nav-link" href="/logout">Logout</a></h3>
-            <h3><a class="nav-link" href="{% url 'customer_create' %}">Add Customer</a></h3>
-            <h3><a class="nav-link" href="{% url 'product_create' %}">Add Product</a></h3>
-            <h3><a href="{% url 'quotation_create' %}">Add Quotation</a></h3>
+                <h3>Welcome back {{ request.user.username }}!</h3>
+                <h3><a class="nav-link" href="/logout">Logout</a></h3>
+                {% if perms.facturierApp and perms.facturierApp.add_customer %}
+                    <h3><a class="nav-link" href="{% url 'customer_create' %}">Add Customer</a></h3>
+                    <h3><a class="nav-link" href="{% url 'product_create' %}">Add Product</a></h3>
+                    <h3><a href="{% url 'quotation_create' %}">Add Quotation</a></h3>
+                {% endif %}
             {% else %}
             <h3>Welcome!</h3>
             <h3><a class="nav-link" href="/login">Login</a></h3>
@@ -71,27 +73,28 @@
     // calcul des prix dynamique
     $(document).ready(function() {
         // calcul_total_line()
-        function applyEditable(){
-            $('.editable').editable({
-                success: function(response, newValue) {
-                    if(response.updatedLines){
-                        $('.totalPart').html(response.updatedLines)
-                        applyEditable()
+        {% if perms.facturierApp and perms.facturierApp.change_customer %}
+            function applyEditable(){
+                $('.editable').editable({
+                    success: function(response, newValue) {
+                        if(response.updatedLines){
+                            $('.totalPart').html(response.updatedLines)
+                            applyEditable()
+                        }
                     }
-                }
-            });
-        }
-        applyEditable()
+                });
+            }
+            applyEditable()
 
- //  permet de selectionner les status depuis la DB
-        $('#quotation_status').editable({
-        source: [
-            {% for key, val in status_choices %}
-            {value: '{{key}}', text: '{{val}}'},
-            {% endfor %}
-           ]
-    });
-
+     //  permet de selectionner les status depuis la DB
+            $('#quotation_status').editable({
+            source: [
+                {% for key, val in status_choices %}
+                {value: '{{key}}', text: '{{val}}'},
+                {% endfor %}
+               ]
+        });
+    {% endif %}
 
 
 
@@ -146,6 +149,7 @@
 
 
     var btnValid = $('#btn_valid_quot{{ quotation.id }}')
+
     btnValid.click(function(){
 
         var result = confirm("Are you sure to validate quotation?");
@@ -158,18 +162,12 @@
                      console.log(data["HTTPRESPONSE"]);
                         }
                     });
+                    $('#exampleModal').modal('toggle');
         } else {
             // Do nothing; they cancelled
         }
 
-
     })
-
-
-
-
-
-
 
     </script>
 {% endif %}

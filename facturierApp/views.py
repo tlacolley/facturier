@@ -11,7 +11,7 @@ from django.template.loader import render_to_string
 
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from django.views.generic.edit import CreateView, UpdateView, View
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
@@ -28,7 +28,6 @@ from .ajax_views import *
 
 class IndexView(ListView):
     model = Customer
-
     template_name = 'facturierApp/index.html'
 
     def get_context_data(self, **kwargs):
@@ -50,7 +49,8 @@ class CustomerListView(ListView):
             return Customer.objects.all()
 
 
-class CustomerDetailView(DetailView):
+class CustomerDetailView(PermissionRequiredMixin, DetailView):
+    permission_required = "facturierApp.view"
     model = Customer
 
     def get_context_data(self, **kwargs):
@@ -59,7 +59,8 @@ class CustomerDetailView(DetailView):
         return context
 
 
-class CustomerRemoveView(LoginRequiredMixin, DeleteView):
+class CustomerRemoveView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
+    permission_required = "facturierApp.delete_customer"
     model = Customer
     success_url = reverse_lazy('customer_list')
 
@@ -78,11 +79,13 @@ class ProductListView(ListView):
             return Product.objects.all()
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(PermissionRequiredMixin, DetailView):
+    permission_required = "facturierApp.view"
     model = Product
 
 
-class ProductRemoveView(LoginRequiredMixin, DeleteView):
+class ProductRemoveView(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
+    permission_required = "facturierApp.delete_product"
     model = Product
     success_url = reverse_lazy('product_list')
 
@@ -121,8 +124,10 @@ class QuotationListView(ListView):
             return Quotation.objects.all()
 
 
-class QuotationDetailView(DetailView):
+class QuotationDetailView(PermissionRequiredMixin, DetailView):
+    permission_required = "facturierApp.view"
     model = Quotation
+
     def get_context_data(self, **kwargs):
         context = DetailView.get_context_data(self, **kwargs)
         context['identity_quot'] = self.kwargs['pk']
@@ -184,7 +189,8 @@ class BillListView(ListView):
         return context
 
 
-class BillDetailView(DetailView):
+class BillDetailView(PermissionRequiredMixin, DetailView):
+    permission_required = "facturierApp.view"
     model = Bill
 
     def get_context_data(self, **kwargs):

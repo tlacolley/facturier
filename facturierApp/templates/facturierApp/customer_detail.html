@@ -5,16 +5,17 @@
 <section>
   <h2> Customer Detail</h2>
   <article>
-    <h3><a href="{% url 'customer_detail' customer.slug %}"> {{ customer.first_name }} {{ customer.last_name }}</a></h3>
+    <h3> {{ customer.first_name }} {{ customer.last_name }}</h3>
     <h4>Email: {{ customer.email }}</h4>
     <h4>Address: {{ customer.address }}</h4>
     <h4>Telephone: {{ customer.phone }}</h4>
-    <h5><a href="{% url 'customer_detail' customer.slug %}">Go ON {{ customer.first_name }}</a></h5>
-    <a href="{% url 'customer_update' customer.slug %}" class="btn btn-primary">Update {{ customer.first_name }}</a>
+    {% if perms.facturierApp and perms.facturierApp.change_customer %}
+        <a href="{% url 'customer_update' customer.slug %}" class="btn btn-primary">Update {{ customer.first_name }}</a>
+    {% endif %}
     <ul>
         {% for quotation in quotations %}
         {% if quotation.customer == customer%}
-        <li> {{quotation.customer.first_name}} </li>
+        <li> <a href="{% url 'quotation_detail' quotation.id %}"> {{quotation.customer.first_name}} {{ quotation.created_at}}</a></li>
 
         {%endif %}
         {%endfor%}
@@ -22,7 +23,9 @@
     <form class="" action="{% url 'customer_remove' customer.slug %}" method="post">
       {% csrf_token %}
       <input type="hidden" name="customer_id" value="{{ customer.id }}">
-      <button type="submit" name="removeCustomer">Remove</button>
+      {% if perms.facturierApp and perms.facturierApp.delete_customer %}
+          <button type="submit" name="removeCustomer">Remove</button>
+      {% endif %}
     </form>
   </article>
 </section>

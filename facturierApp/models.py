@@ -25,6 +25,13 @@ class Customer(models.Model):
     def __unicode__(self):
         return "%s %s" % (self.first_name, self.last_name)
 
+    class Meta:
+        permissions = (
+            ("view", "Can see available tasks"),
+
+        )
+
+
 class Product(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = AutoSlugField(populate_from='name')
@@ -35,6 +42,13 @@ class Product(models.Model):
 # permet d afficher le nom des product dans un form/dropdown
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        permissions = (
+            ("view", "Can see available tasks"),
+
+        )
+
 # Quotationet bill
 
 STATUS_CHOICES = (
@@ -56,6 +70,11 @@ class Quotation(models.Model):
             res += line.total_line()
         return res
 
+    class Meta:
+        permissions = (
+            ("view", "Can see available tasks"),
+
+        )
 
 class Bill(models.Model):
     PAYMENT_CHOICES = (
@@ -77,6 +96,15 @@ class Bill(models.Model):
         for line in self.linebill_set.all():
             res += line.total_line()
         return res
+
+    class Meta:
+        permissions = (
+            ("view", "Can see available tasks"),
+
+        )
+
+
+
 # Lines de commandes
 
 class LineQuotation(models.Model):

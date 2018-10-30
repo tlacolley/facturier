@@ -23,7 +23,7 @@
         <dd> {{ quotation.created_at}} </dd>
         <dt>Quotation for</dt>
         <dd>
-            |<a href="#" id="customer_name" class="editable" data-type="text" data-pk="{{ quotation.id }}" data-url="{% url 'quotation_field_edit' quotation.id "customer.first_name" %}" data-title="Enter Customer name">{{ quotation.customer.first_name }}</a>
+            | <a href="#" id="customer_name" class="editable" data-type="text" data-pk="{{ quotation.id }}" data-url="{% url 'quotation_field_edit' quotation.id "customer.first_name" %}" data-title="Enter Customer name">{{ quotation.customer.first_name }}</a>
             <a href="#" id="customer_name" class="editable" data-type="text" data-pk="{{ quotation.id }}" data-url="{% url 'quotation_field_edit' quotation.id "customer.last_name" %}" data-title="Enter Customer name">{{ quotation.customer.last_name }}</a>
 
              <br>
@@ -62,10 +62,11 @@
 <div class="validDiv">
 
 {% if not pdf  %}
-
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  Valider le devis
-</button>
+    {% if perms.facturierApp and perms.facturierApp.change_quotation %}
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+          Valider le devis
+        </button>
+    {% endif %}
 {% endif %}
 </div>
 

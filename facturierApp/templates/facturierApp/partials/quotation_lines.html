@@ -19,10 +19,12 @@
         </td>
     <td class="total_line" >{{ line.total_line }} $</td>
     {% if not pdf  %}
-    <td> <form class="" action="{% url 'quotation_line_delete' %}" method="post">
-        <button type="button" class="btnrmv button" id="{{ line.id }}" name="button">delete</button>
-    </form>
-</td>
+        {% if perms.facturierApp and perms.facturierApp.delete_quotation%}
+            <td> <form class="" action="{% url 'quotation_line_delete' %}" method="post">
+                <button type="button" class="btnrmv button" id="{{ line.id }}" name="button">delete</button>
+            </form>
+        </td>
+    {% endif %}
 {% endif %}
 </tr>
 {% endfor %}
@@ -34,12 +36,14 @@
     </tr>
 </tfoot>
 {% if not pdf  %}
-<form id="form_add_line" class="editable" action="{% url 'quotation_line_create' %}" method="post">
-    {{line_quotation_form.quotation.as_hidden}}
-    {{line_quotation_form.product}}
-    {{line_quotation_form.quantity}}
-    <button type="button" class="button btnAdd btn btn-primary" name="button">Add</button>
+    {% if perms.facturierApp and perms.facturierApp.add_quotation %}
+        <form id="form_add_line" class="editable" action="{% url 'quotation_line_create' %}" method="post">
+            {{line_quotation_form.quotation.as_hidden}}
+            {{line_quotation_form.product}}
+            {{line_quotation_form.quantity}}
+            <button type="button" class="button btnAdd btn btn-primary" name="button">Add</button>
 
-</form>
+        </form>
+    {% endif %}
 {% endif %}
 </table>

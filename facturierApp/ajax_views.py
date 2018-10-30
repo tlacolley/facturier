@@ -3,6 +3,7 @@ import json
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import HttpResponse, JsonResponse
 from django.views.generic.edit import View
 from django.template.loader import render_to_string
@@ -12,8 +13,11 @@ from .forms import *
 
 
 
+
 @method_decorator(csrf_exempt, name='dispatch')
-class QuotationFieldEditView(View):
+class QuotationFieldEditView(View, PermissionRequiredMixin):
+    permission_required = "facturierApp.change_quotation"
+
     def post(self, request, pk, update_field, **kwargs):
         quotation = Quotation.objects.get(id=pk)
         if update_field.startswith("customer."):
@@ -35,7 +39,8 @@ class QuotationFieldEditView(View):
 
 
 @method_decorator(csrf_exempt, name="dispatch")
-class QuotationLineCreateView(CreateView):
+class QuotationLineCreateView(CreateView, PermissionRequiredMixin):
+    permission_required = "facturierApp.add_quotation"
     model = LineQuotation
     form_class = LineQuotationForm
 
@@ -59,7 +64,8 @@ class QuotationLineCreateView(CreateView):
 
 
 @method_decorator(csrf_exempt, name="dispatch")
-class QuotationLineDeleteView(DeleteView):
+class QuotationLineDeleteView(DeleteView, PermissionRequiredMixin):
+    permission_required = "facturierApp.delete_quotation"
 
     def post(self, request, **kwargs):
         line = LineQuotation.objects.get(pk=request.POST.get('pk'))
@@ -68,7 +74,8 @@ class QuotationLineDeleteView(DeleteView):
 
 
 @method_decorator(csrf_exempt, name="dispatch")
-class QuotationValidationView(View):
+class QuotationValidationView(View, PermissionRequiredMixin):
+    permission_required = "facturierApp.change_quotation"
     model = Quotation
 
     def post(self, request, **kwargs):
